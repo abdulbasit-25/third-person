@@ -24,13 +24,16 @@ export default function LoginPage() {
           <AuthForm mode="login" />
           <p className="mt-8 text-center text-xs text-[var(--muted)]">
             New here?{" "}
-            <Link className="text-[var(--accent)]" href="/register">
+            <Link className="action-link text-[var(--accent)]" href="/register">
               Create a reviewer account
             </Link>
           </p>
           <p className="mt-3 text-center text-xs text-[var(--muted)]">
             Administrator?{" "}
-            <Link className="text-[var(--accent)]" href="/admin-login">
+            <Link
+              className="action-link text-[var(--accent)]"
+              href="/admin-login"
+            >
               Use administrator sign in
             </Link>
           </p>
