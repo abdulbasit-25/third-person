@@ -24,7 +24,7 @@ export default function RegisterPage() {
           <AuthForm mode="register" />
           <p className="mt-8 text-center text-xs text-[var(--muted)]">
             Already shared your perspective?{" "}
-            <Link className="text-[var(--accent)]" href="/login">
+            <Link className="action-link text-[var(--accent)]" href="/login">
               Sign in
             </Link>
           </p>
