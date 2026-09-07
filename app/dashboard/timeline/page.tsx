@@ -73,6 +73,7 @@ export default async function TimelinePage() {
           )}
         </div>
       </section>
+      <Footer />
     </main>
   );
 }

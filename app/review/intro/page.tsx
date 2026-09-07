@@ -60,6 +60,7 @@ export default async function ReviewIntroPage() {
           </section>
         )}
       </div>
+      <Footer />
     </main>
   );
 }

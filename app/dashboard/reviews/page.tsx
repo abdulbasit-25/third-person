@@ -94,6 +94,7 @@ export default async function ReviewsPage() {
           )}
         </div>
       </section>
+      <Footer />
     </main>
   );
 }

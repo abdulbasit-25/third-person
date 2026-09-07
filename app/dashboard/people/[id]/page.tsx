@@ -134,6 +134,7 @@ export default async function PersonHistoryPage({
           </div>
         </section>
       </section>
+      <Footer />
     </main>
   );
 }
