@@ -11,11 +11,7 @@ const idleStyles = {
   color: "#6b6252",
 };
 
-export function ChoiceButton({
-  active,
-  onClick,
-  children,
-}: ChoiceButtonProps) {
+export function ChoiceButton({ active, onClick, children }: ChoiceButtonProps) {
   const buttonStyle: CSSProperties = {
     display: "inline-flex",
     alignItems: "center",
@@ -41,10 +37,11 @@ export function ChoiceButton({
       onClick={onClick}
       style={buttonStyle}
       onMouseEnter={(event) => {
-        if (!active) Object.assign(event.currentTarget.style, {
-          borderColor: "#3a352b",
-          color: "#3a352b",
-        });
+        if (!active)
+          Object.assign(event.currentTarget.style, {
+            borderColor: "#3a352b",
+            color: "#3a352b",
+          });
       }}
       onMouseLeave={(event) => {
         if (!active) Object.assign(event.currentTarget.style, idleStyles);
