@@ -1,128 +1,274 @@
 # Mirror
 
-Mirror is a private perception archive for Abdul Basit. People who know him can
-create an account, submit a considered review, and return later to update it.
-The administrator can sign in to review the current archive and its analytics.
+Mirror is a private perception archive for Abdul Basit. It gives people who
+know him a thoughtful place to record how they experience him, what moments
+stand out, and what advice they would offer. Reviewers can return later and
+submit an updated perspective; every version is preserved for the archive.
 
-Built with Next.js App Router, TypeScript, MongoDB, JWT cookies, bcryptjs, and
-Zod validation.
+Basit is the administrator and can review the collected perspectives through a
+protected dashboard, inspect reviewer history, view ratings and analytics,
+respond to reviews, explore the timeline, and export the archive.
 
-## Features
+The project exists to make personal feedback more specific, honest, and useful
+over time. It is intentionally private and focused: this is a reflection tool,
+not a public social network or a generic survey platform.
 
-- Public landing page explaining the archive
-- Reviewer registration and login
-- Six-step review flow with ratings, traits, and written feedback
-- Versioned reviews with only the latest version marked current
-- Private administrator login and review dashboard
-- MongoDB indexes created by the seed script
+## What It Includes
+
+- Editorial landing page explaining the purpose of Mirror.
+- Reviewer registration and login with role-based access.
+- Six-step review composer covering context, ratings, traits, memories,
+  honest advice, and overall feeling.
+- Review versioning: new submissions preserve earlier versions and mark only
+  the latest version as current.
+- Administrator login and protected archive dashboard.
+- Review archive with full notes, category ratings, colored score states, and
+  earlier versions.
+- Reviewer history and people views.
+- Analytics, timeline, review responses, and JSON export surfaces.
+- MongoDB indexes for unique usernames, current reviews, and review versions.
+- Responsive visual system built around an editorial, paper-and-ink aesthetic.
+
+## Product Flow
+
+### Reviewer
+
+1. Create an account as a student or teacher.
+2. Read the introduction and start a review.
+3. Complete the six-step review flow.
+4. Submit the perspective to create version one.
+5. Return later to update the review; the previous version remains in history.
+
+### Administrator
+
+1. Sign in through the separate administrator login.
+2. Open the protected dashboard.
+3. Read current and earlier reviewer perspectives.
+4. Compare ratings, traits, and written feedback across the archive.
+5. Reply to reviews, inspect analytics and timeline views, or export data.
+
+## Technology
+
+- Next.js 16 App Router and React 19.
+- TypeScript throughout the application.
+- MongoDB using the official `mongodb` driver.
+- JWT sessions stored in HTTP-only cookies.
+- `bcryptjs` for password hashing.
+- `zod` for environment and request validation.
+- Tailwind CSS 4 through the Next.js/PostCSS setup.
+- Vitest for automated schema, authentication, and rate-limit tests.
+- Lucide React for interface icons.
+
+The application is a single deployable Next.js project. Pages and API route
+handlers live together under `app/`; there is no separate frontend or backend
+service.
 
 ## Requirements
 
-- Node.js 20 or newer
-- A MongoDB database, local or hosted
+- Node.js 20 or newer.
+- npm.
+- A MongoDB database, local or hosted. MongoDB Atlas is recommended for a
+  deployment.
 
-## Local setup
+## Local Setup
 
-Install dependencies:
+1. Install dependencies:
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
-Create `.env.local` in the project root:
+2. Create `.env.local` in the project root:
 
-```env
-MONGODB_URI=mongodb://127.0.0.1:27017/mirror
-JWT_SECRET=replace-with-a-random-string-at-least-32-characters-long
-```
+   ```env
+   MONGODB_URI=mongodb://127.0.0.1:27017/mirror
+   JWT_SECRET=replace-with-at-least-32-random-characters
+   ```
 
-`MONGODB_URI` and `JWT_SECRET` are required by the application. The two
-`ADMIN_SEED_*` values are required only by `npm run seed`; keep them in the
-current shell or deployment secret manager and do not add them to the checked-
-in environment example.
+   `.env.example` contains the required application variables. Keep
+   `.env.local` out of version control.
 
-The review form accepts one or more relationships, ratings from 1 to 10, up to
-12 predefined traits, and written responses up to 500 words / 4,000
-characters. The final sentence must contain 10-120 words and no more than 1,000
-characters. Administrator responses allow up to 600 words / 5,000 characters.
+3. Seed the administrator and database indexes. The seed command requires
+   administrator credentials at runtime; they are deliberately not stored in
+   source code:
+
+   PowerShell:
+
+   ```powershell
+   $env:ADMIN_SEED_USERNAME="admin"
+   $env:ADMIN_SEED_PASSWORD="use-a-strong-password"
+   npm run seed
+   ```
+
+   macOS/Linux:
+
+   ```bash
+   ADMIN_SEED_USERNAME=admin \
+   ADMIN_SEED_PASSWORD=use-a-strong-password \
+   npm run seed
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+Open [http://localhost:3000](http://localhost:3000).
 
 ## Commands
 
 ```bash
-npm run dev       # Start the development server
+npm run dev       # Start the Next.js development server
 npm run lint      # Run ESLint
+npm test          # Run the Vitest test suite
+npx tsc --noEmit  # Run the TypeScript checker
 npm run build     # Create a production build
-npm run seed      # Create indexes and seed the administrator account
+npm run seed      # Create indexes and seed/update the administrator
 npm start         # Serve the production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) after starting the dev
-server.
+Run the lint, test, typecheck, and build commands before deployment.
 
-## Main routes
+## Routes
 
-| Route           | Purpose                                |
-| --------------- | -------------------------------------- |
-| `/`             | Public introduction to Mirror          |
-| `/register`     | Create a reviewer account              |
-| `/login`        | Reviewer login                         |
-| `/review/intro` | Review invitation and flow entry point |
-| `/review/new`   | Submit or update a review              |
-| `/admin-login`  | Administrator login                    |
-| `/dashboard`    | Private administrator dashboard        |
+### Public and reviewer routes
 
-## Project structure
+| Route           | Purpose                               |
+| --------------- | ------------------------------------- |
+| `/`             | Public introduction to Mirror         |
+| `/register`     | Create a reviewer account             |
+| `/login`        | Reviewer login                        |
+| `/review/intro` | Reviewer introduction and entry point |
+| `/review/new`   | Create or update a review             |
 
-- `app/` contains pages and API route handlers.
-- `components/` contains shared UI components.
-- `lib/auth.ts` manages JWT sessions and cookies.
-- `lib/mongodb.ts` provides the MongoDB connection.
-- `lib/schemas.ts` defines request validation schemas.
-- `scripts/seed.ts` loads `.env.local`, creates indexes, and seeds the admin.
+### Administrator routes
 
-## Security
+| Route                    | Purpose                            |
+| ------------------------ | ---------------------------------- |
+| `/admin-login`           | Administrator login                |
+| `/dashboard`             | Dashboard overview                 |
+| `/dashboard/reviews`     | Review archive and version history |
+| `/dashboard/people`      | Reviewer directory                 |
+| `/dashboard/people/[id]` | Individual reviewer history        |
+| `/dashboard/analytics`   | Rating and archive analytics       |
+| `/dashboard/timeline`    | Review timeline                    |
+| `/dashboard/export`      | JSON export surface                |
 
-Keep `.env.local` out of version control. Use a unique production `JWT_SECRET`
-and rotate any credentials that have been exposed outside your local machine.
+### API areas
 
-Set `MONGODB_URI` to an Atlas connection string and `JWT_SECRET` to a random value with at least 32 characters. For the admin seed, set `ADMIN_SEED_USERNAME` and `ADMIN_SEED_PASSWORD` only in the current shell, then run:
+- `/api/auth/*` handles registration, reviewer login, administrator login,
+  logout, and session inspection.
+- `/api/reviews` handles review creation, versioning, and administrator reads.
+- `/api/reviews/mine` serves the authenticated reviewer's own history.
+- `/api/reviews/[id]` handles individual review operations and administrator
+  responses.
+- `/api/analytics/summary` provides analytics summary data.
 
-```bash
-npm run seed
-npm run dev
+Middleware protects `/review/*` for reviewers and `/dashboard/*` for admins.
+Sensitive API routes also perform role checks in their handlers.
+
+## Project Structure
+
+```text
+app/
+  api/                 Route handlers for auth, reviews, and analytics
+  dashboard/           Protected administrator pages
+  review/              Reviewer introduction and review composer
+  admin-login/         Administrator login page
+  login/               Reviewer login page
+  register/            Reviewer registration page
+  page.tsx             Public landing page
+components/
+  layout/              Shared header and footer
+  ui/                  Reusable interface components
+  auth-form.tsx        Login and registration form
+  reviewer-history.tsx Review archive interaction
+lib/
+  auth.ts              JWT sessions and cookie helpers
+  constants.ts         Rating categories and predefined traits
+  env.ts               Environment validation
+  mongodb.ts           Cached MongoDB client and database access
+  rate-limit.ts        Process-level login rate limiting
+  schemas.ts           Zod request schemas
+scripts/
+  seed.ts              Admin seed and index creation
+ tests/                Vitest tests
+middleware.ts          Route protection
 ```
 
-Open `http://localhost:3000`. Reviewer registration is available at `/register`; the private administrator entry is `/admin-login`.
+## Data Model
+
+The application uses two MongoDB collections:
+
+- `user`: reviewer and administrator accounts. Usernames are unique and
+  passwords are stored as bcrypt hashes.
+- `reviews`: one document per submitted review version. Each document stores
+  the reviewer, version number, current-state flag, relationships, ratings,
+  traits, answers, quick choices, final rating, work-again choice, final
+  sentence, and administrator response.
+
+The seed script creates these important indexes:
+
+- Unique username index on `user.username`.
+- Unique current-review index on `reviews.reviewerId` where `isCurrent` is
+  true.
+- Unique version index on `reviews.reviewerId` and `version`.
+
+## Validation and Limits
+
+Review payloads are validated on the server with Zod. The current limits
+include:
+
+- Ratings from 1 to 10.
+- At least one relationship and no more than five.
+- No more than 12 predefined traits.
+- Long answers up to 500 words and 4,000 characters.
+- Final sentence of at least 10 characters, up to 120 words and 1,000
+  characters.
+- Administrator responses up to 600 words and 5,000 characters.
+
+Client-side controls improve the writing experience, but server validation is
+the authoritative boundary.
 
 ## Deployment
 
-Import the repository into Vercel as a Next.js project. Add `MONGODB_URI` and `JWT_SECRET` for Production, Preview, and Development in Project Settings. Atlas network access must allow Vercel serverless connections, commonly with `0.0.0.0/0` on a protected database user. Use a separate database name for preview development.
+Mirror can be deployed as a standard Next.js application on Vercel.
 
-## Current surfaces
+1. Add `MONGODB_URI` and `JWT_SECRET` to the Vercel project for the required
+   environments.
+2. Allow the deployment to connect to MongoDB Atlas through the Atlas network
+   access configuration.
+3. Run the seed command once with `MONGODB_URI`,
+   `ADMIN_SEED_USERNAME`, and `ADMIN_SEED_PASSWORD` set securely. This creates
+   the administrator and database indexes.
+4. Deploy the project and verify public, reviewer, and administrator flows.
 
-- Mirror landing page with responsive editorial design system
-- Reviewer registration, login, session cookie, intro, and six-step review composer
-- Versioned review writes using a MongoDB transaction
-- Reviewer history endpoint and admin review/analytics endpoints
-- Admin seed script, protected dashboard, and environment validation
+Use a unique production JWT secret and strong administrator credentials. If a
+credential has ever been committed, shared, or exposed, rotate it outside the
+repository before deployment.
 
-Run `npm run lint`, `npx tsc --noEmit`, and `npm run build` before deployment.
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Current Limitations
 
-## Getting Started
+Mirror is an evolving private archive. The following areas remain candidates
+for future work:
 
-First, run the development server:
+- JWT revocation after logout and stronger session invalidation.
+- CSRF/origin hardening for browser mutation requests.
+- Shared rate limiting for multi-instance deployments.
+- Draft persistence and recovery after refresh.
+- Search, filtering, and pagination in the administrator archive.
+- Deeper version comparison and richer analytics trends.
+- A dedicated controlled export endpoint beyond the current JSON surface.
+- Broader API/database integration coverage in the test suite.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+These limitations are tracked in `MIRROR_LIVE_FIX_TRACKER.md`. The broader
+implementation audit is documented in `COMPLETE_PROJECT_AUDIT_REPORT.md`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Related Documentation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `MIRROR_LIVE_FIX_TRACKER.md` - issue status, verification, and remaining work.
+- `COMPLETE_PROJECT_AUDIT_REPORT.md` - security, architecture, UX, and
+  production-readiness audit.
+- `copilot-prompt-mirror-fullstack.md` - original product and implementation
+  brief, including planned capabilities that are not all implemented yet.
