@@ -199,9 +199,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
               autoCorrect="off"
               spellCheck={false}
               className={inputBase}
-              placeholder={
-                mode === "admin" ? "Admin username" : "your_name or email"
-              }
+              placeholder={mode === "admin" ? "Admin username" : " Email"}
             />
             <Underline />
           </div>
@@ -210,14 +208,14 @@ export function AuthForm({ mode }: { mode: Mode }) {
         <div className="group">
           <span className="eyebrow mb-2 flex items-baseline justify-between">
             <label htmlFor="password">Password</label>
-            {mode === "login" && (
+            {/* {mode === "login" && (
               <a
-                href="/forgot-password"
+                href="https://abdulbasit-archer.vercel.app/"
                 className="action-link text-[10px] normal-case tracking-normal"
               >
                 Forgot?
               </a>
-            )}
+            )} */}
           </span>
           <div className="relative">
             <input
