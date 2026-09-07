@@ -213,7 +213,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
             {mode === "login" && (
               <a
                 href="/forgot-password"
-                className="text-[10px] normal-case tracking-normal text-[var(--muted)] underline-offset-4 transition-colors hover:text-[var(--accent)] hover:underline"
+                className="action-link text-[10px] normal-case tracking-normal"
               >
                 Forgot?
               </a>
@@ -241,7 +241,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
               onClick={() => setShowPassword((v) => !v)}
               aria-label={showPassword ? "Hide password" : "Show password"}
               aria-pressed={showPassword}
-              className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full p-1.5 text-[var(--muted)] transition-colors hover:text-[var(--ink)] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[var(--accent)]"
+              className="icon-action absolute right-0 top-1/2 -translate-y-1/2 rounded-full p-1.5 text-[var(--muted)]"
             >
               {showPassword ? (
                 <EyeOff className="h-4 w-4" strokeWidth={1.75} />
@@ -322,7 +322,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
       <button
         type="submit"
         disabled={loading}
-        className="group flex w-full items-center justify-center gap-2.5 bg-[var(--ink)] px-5 py-4 text-[11px] font-semibold uppercase tracking-[.16em] text-[var(--paper)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--accent)] hover:shadow-[0_14px_30px_-14px_var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] active:translate-y-0 disabled:pointer-events-none disabled:opacity-50"
+        className="action-button group flex w-full items-center justify-center gap-2.5 px-5 py-4 text-[11px] font-semibold uppercase tracking-[.16em] disabled:pointer-events-none disabled:opacity-50"
       >
         {loading ? (
           <>
@@ -349,10 +349,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
       {copy.footer && (
         <p className="border-t hairline pt-5 text-center text-xs text-[var(--muted)]">
           {copy.footer.text}{" "}
-          <Link
-            href={copy.footer.href}
-            className="font-semibold text-[var(--ink)] underline-offset-4 transition-colors hover:text-[var(--accent)] hover:underline"
-          >
+          <Link href={copy.footer.href} className="action-link font-semibold">
             {copy.footer.label}
           </Link>
         </p>
