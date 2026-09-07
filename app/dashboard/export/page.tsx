@@ -50,7 +50,7 @@ export default async function ExportPage() {
           private feedback.
         </p>
         <a
-          className="mt-10 inline-block bg-[var(--accent)] px-6 py-4 text-[11px] uppercase tracking-[.14em] text-white"
+          className="action-button action-button--accent mt-10 inline-block px-6 py-4 text-[11px] uppercase tracking-[.14em]"
           href="/api/reviews"
           download="mirror-reviews.json"
         >
