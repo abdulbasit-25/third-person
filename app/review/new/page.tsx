@@ -1,13 +1,60 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { ratingCategories, traits } from "@/lib/constants";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { ChoiceButton } from "@/components/ui/ChoiceButton";
 
 const wordCount = (value: string) =>
   value.trim().split(/\s+/).filter(Boolean).length;
+
+const micro = "text-[9px] font-medium uppercase tracking-[0.22em]";
+
+function FooterBackButton({
+  disabled,
+  onClick,
+}: {
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={onClick}
+      className="action-link eyebrow disabled:opacity-30"
+    >
+      Back
+    </button>
+  );
+}
+
+function FooterActionButton({
+  onClick,
+  disabled,
+  label,
+  loadingLabel,
+  loading,
+}: {
+  onClick: () => void;
+  disabled?: boolean;
+  label: string;
+  loadingLabel?: string;
+  loading?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={`action-button action-button--accent inline-flex min-h-[44px] items-center gap-3 px-5 py-3 ${micro} disabled:opacity-60 ${loading ? "cursor-wait" : ""}`}
+    >
+      <span>{loading ? (loadingLabel ?? "Saving...") : label}</span>
+      <ArrowUpRight aria-hidden="true" className="h-4 w-4" strokeWidth={1.6} />
+    </button>
+  );
+}
 
 const steps = [
   "The context",
@@ -17,6 +64,89 @@ const steps = [
   "The honest bit",
   "The instinct",
 ];
+
+// Stamped-badge toggle. Uses INLINE styles on purpose: inline `style` wins
+// over any class-based CSS regardless of specificity, so this will render
+// correctly even if something elsewhere in the stylesheet (a button reset,
+// a conflicting utility, a CSS-variable format mismatch) was cancelling the
+// class-based border/background before. Literal colors, not var(--x)/NN,
+// so there's nothing left that can silently fail.
+function ChoiceButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={active}
+      onClick={onClick}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "8px",
+        padding: "10px 16px",
+        fontSize: "11px",
+        letterSpacing: "0.08em",
+        textTransform: "uppercase",
+        fontFamily: "inherit",
+        borderRadius: "3px",
+        border: active ? "1.5px solid #b5541c" : "1.5px solid #cdc4b2",
+        backgroundColor: active ? "#c1611f" : "#f6f1e7",
+        color: active ? "#fff8ef" : "#6b6252",
+        boxShadow: active ? "0 2px 6px rgba(180,84,28,0.35)" : "none",
+        cursor: "pointer",
+        transition: "all 150ms ease",
+      }}
+      onMouseEnter={(e) => {
+        if (!active) {
+          e.currentTarget.style.borderColor = "#3a352b";
+          e.currentTarget.style.color = "#3a352b";
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!active) {
+          e.currentTarget.style.borderColor = "#cdc4b2";
+          e.currentTarget.style.color = "#6b6252";
+        }
+      }}
+    >
+      <span
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "14px",
+          height: "14px",
+          borderRadius: "2px",
+          border: active ? "1.5px solid #fff8ef" : "1.5px solid #b3a894",
+          backgroundColor: active ? "#fff8ef" : "transparent",
+          flexShrink: 0,
+        }}
+      >
+        {active && (
+          <svg
+            width="9"
+            height="9"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#c1611f"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        )}
+      </span>
+      {children}
+    </button>
+  );
+}
 
 export default function NewReviewPage() {
   const [step, setStep] = useState(1);
@@ -506,35 +636,26 @@ export default function NewReviewPage() {
         </div>
       </div>
 
-      <footer className="fixed bottom-0 left-0 right-0 border-t hairline bg-[var(--paper)]/95 px-6 py-4 backdrop-blur-sm md:px-10">
+      <footer className="review-nav-footer fixed bottom-0 left-0 right-0 px-6 py-4 md:px-10">
         <div className="mx-auto flex max-w-5xl items-center justify-between">
-          <button
+          <FooterBackButton
             disabled={step === 1}
             onClick={() => setStep(step - 1)}
-            className="eyebrow disabled:opacity-30"
-          >
-            ← Back
-          </button>
+          />
           {step < max ? (
-            <button
-              type="button"
-              onClick={nextStep}
-              className="border border-[var(--ink)] bg-[var(--ink)] px-6 py-3 text-[11px] uppercase tracking-[.14em] text-[var(--paper)] transition-colors hover:bg-transparent hover:text-[var(--ink)]"
-            >
-              Next ↗
-            </button>
+            <FooterActionButton onClick={nextStep} label="Next" />
           ) : (
-            <button
-              type="button"
+            <FooterActionButton
               onClick={submit}
               disabled={submitting}
-              className="border border-[var(--accent)] bg-[var(--accent)] px-6 py-3 text-[11px] uppercase tracking-[.14em] text-white transition-colors hover:bg-transparent hover:text-[var(--accent)] disabled:opacity-60"
-            >
-              {submitting ? "Saving..." : "Send it to Basit ↗"}
-            </button>
+              loading={submitting}
+              label="Send it to Basit"
+              loadingLabel="Saving..."
+            />
           )}
         </div>
       </footer>
+      <Footer />
     </main>
   );
 }
