@@ -183,12 +183,11 @@ export default function NewReviewPage() {
           backHref="/review/intro"
           backLabel="Reviewer space"
           rightContent={
-            <Link
-              href="/api/auth/logout"
-              className="eyebrow text-[var(--accent)]"
-            >
-              Sign out
-            </Link>
+            <form action="/api/auth/logout" method="post">
+              <button type="submit" className="eyebrow text-[var(--accent)]">
+                Sign out
+              </button>
+            </form>
           }
         />
         <div className="mx-auto max-w-3xl py-24">
@@ -272,9 +271,11 @@ export default function NewReviewPage() {
             <span className="eyebrow text-[var(--accent)]">
               0{step} / 0{max}
             </span>
-            <Link href="/api/auth/logout" className="eyebrow">
-              Sign out
-            </Link>
+            <form action="/api/auth/logout" method="post">
+              <button type="submit" className="eyebrow">
+                Sign out
+              </button>
+            </form>
           </div>
         }
       />
