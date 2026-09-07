@@ -108,9 +108,12 @@ export function ReviewerHistory({
             {latest.isCurrent ? (
               <ReviewResponseForm
                 reviewId={latest.id}
-                initialResponse={latest.adminResponse}
-              />
-            ) : null}
+             {latest.isCurrent ? (
+  <ReviewResponseForm
+    reviewId={latest.id}
+    initialResponse={latest.adminResponse ?? undefined}
+  />
+) : null}
           </div>
 
           {/* Earlier versions */}
@@ -121,10 +124,7 @@ export function ReviewerHistory({
               </p>
               <div className="space-y-8">
                 {history.map((review) => (
-                  <div
-                    key={review.id}
-                    className="border-l-2 hairline pl-5"
-                  >
+                  <div key={review.id} className="border-l-2 hairline pl-5">
                     <div className="flex flex-wrap items-center gap-3">
                       <span className="font-bold text-sm">
                         Version {review.version}
