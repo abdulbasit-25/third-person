@@ -31,18 +31,16 @@ export async function POST(request: Request) {
               { $set: { isCurrent: false } },
               { session: transaction },
             );
-        await db
-          .collection("reviews")
-          .insertOne(
-            {
-              ...input,
-              reviewerId,
-              version,
-              isCurrent: true,
-              createdAt: new Date(),
-            },
-            { session: transaction },
-          );
+        await db.collection("reviews").insertOne(
+          {
+            ...input,
+            reviewerId,
+            version,
+            isCurrent: true,
+            createdAt: new Date(),
+          },
+          { session: transaction },
+        );
       });
     } finally {
       await transaction.endSession();
@@ -72,7 +70,7 @@ export async function GET(request: Request) {
       { $match: { isCurrent: true } },
       {
         $lookup: {
-          from: "third-person",
+          from: "user",
           localField: "reviewerId",
           foreignField: "_id",
           as: "reviewer",

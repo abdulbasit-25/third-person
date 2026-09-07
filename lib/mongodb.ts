@@ -8,5 +8,5 @@ export async function getDb() {
     globalForMongo.mongoClient = client;
     await client.connect();
   }
-  return client.db();
+  return client.db("third-person");
 }

@@ -8,21 +8,19 @@ export async function POST(request: Request) {
     const input = registerSchema.parse(await request.json());
     const db = await getDb();
     const username = input.username.toLowerCase();
-    if (await db.collection("third-person").findOne({ username }))
+    if (await db.collection("user").findOne({ username }))
       return NextResponse.json(
         { error: "That username is already taken." },
         { status: 409 },
       );
-    const result = await db
-      .collection("third-person")
-      .insertOne({
-        username,
-        displayName: input.displayName,
-        passwordHash: await hashPassword(input.password),
-        role: "reviewer",
-        status: input.status,
-        createdAt: new Date(),
-      });
+    const result = await db.collection("user").insertOne({
+      username,
+      displayName: input.displayName,
+      passwordHash: await hashPassword(input.password),
+      role: "reviewer",
+      status: input.status,
+      createdAt: new Date(),
+    });
     const response = NextResponse.json(
       {
         id: result.insertedId.toString(),

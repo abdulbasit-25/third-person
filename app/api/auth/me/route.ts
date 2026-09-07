@@ -7,7 +7,7 @@ export async function GET() {
   if (!session)
     return NextResponse.json({ error: "Not signed in." }, { status: 401 });
   const user = await (await getDb())
-    .collection("third-person")
+    .collection("user")
     .findOne(
       { _id: new ObjectId(session.sub) },
       { projection: { passwordHash: 0 } },

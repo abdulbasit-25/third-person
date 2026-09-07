@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     const input = loginSchema.parse(await request.json());
     const user = await (await getDb())
-      .collection("third-person")
+      .collection("user")
       .findOne({ username: input.username.toLowerCase(), role: "admin" });
     if (!user || !(await verifyPassword(input.password, user.passwordHash)))
       return NextResponse.json(

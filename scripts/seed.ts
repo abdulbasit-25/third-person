@@ -14,7 +14,8 @@ async function main() {
 
   try {
     await client.connect();
-    const users = client.db().collection("third-person");
+    const db = client.db("third-person");
+    const users = db.collection("user");
     await users.createIndex(
       { username: 1 },
       {
@@ -22,14 +23,8 @@ async function main() {
         partialFilterExpression: { username: { $type: "string" } },
       },
     );
-    await client
-      .db()
-      .collection("reviews")
-      .createIndex({ reviewerId: 1, isCurrent: 1 });
-    await client
-      .db()
-      .collection("reviews")
-      .createIndex({ reviewerId: 1, version: 1 });
+    await db.collection("reviews").createIndex({ reviewerId: 1, isCurrent: 1 });
+    await db.collection("reviews").createIndex({ reviewerId: 1, version: 1 });
     await users.updateOne(
       { username: adminUsername },
       {
