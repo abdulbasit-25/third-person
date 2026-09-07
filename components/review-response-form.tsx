@@ -50,7 +50,7 @@ export function ReviewResponseForm({
           type="button"
           onClick={save}
           disabled={saving}
-          className="bg-[var(--ink)] px-5 py-3 text-[11px] uppercase tracking-[.14em] text-[var(--paper)] disabled:opacity-50"
+          className="action-button px-5 py-3 text-[11px] uppercase tracking-[.14em] disabled:opacity-50"
         >
           {saving ? "Saving..." : "Save response ↗"}
         </button>
