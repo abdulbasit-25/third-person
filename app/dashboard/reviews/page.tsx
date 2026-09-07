@@ -23,6 +23,7 @@ export default async function ReviewsPage() {
           _id: 1,
           reviewerId: 1,
           finalRating: 1,
+          ratings: 1,
           finalSentence: 1,
           answers: 1,
           traits: 1,
@@ -50,6 +51,7 @@ export default async function ReviewsPage() {
   const serialize = (review: (typeof reviews)[number]) => ({
     id: review._id.toString(),
     finalRating: review.finalRating,
+    ratings: review.ratings || {},
     finalSentence: review.finalSentence,
     answers: review.answers || {},
     traits: review.traits || [],
@@ -79,7 +81,7 @@ export default async function ReviewsPage() {
         </h1>
         <p className="mt-8 max-w-xl font-serif text-lg leading-relaxed text-[var(--muted)] sm:text-xl">
           Choose a reviewer to read their latest perspective in full, plus every
-          earlier version they've written.
+          earlier version they&apos;ve written.
         </p>
 
         <div className="mt-14 divide-y hairline sm:mt-16">
