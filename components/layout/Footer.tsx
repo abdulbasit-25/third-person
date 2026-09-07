@@ -66,7 +66,7 @@ export function Footer({ variant = "public-home" }: FooterProps) {
 
               {/* Brand name */}
               <div>
-                <p className="text-[9px] font-medium uppercase tracking-[0.42em] text-[var(--muted)] transition-colors duration-300 group-hover:text-[var(--ink-soft)]">
+                <p className="text-[9px] font-medium uppercase tracking-[0.42em] text-[var(--muted)] transition-all duration-300 hover:tracking-[0.5em] hover:text-[var(--accent)] group-hover:text-[var(--ink-soft)]">
                   Powered by
                 </p>
 
@@ -75,11 +75,11 @@ export function Footer({ variant = "public-home" }: FooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Visit ARCHER portfolio"
-                  className="relative mt-0.5 inline-block text-lg font-semibold tracking-[0.28em] text-[var(--ink)] transition-all duration-300 ease-out hover:translate-x-1 hover:tracking-[0.34em] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]"
+                  className="group/link relative mt-0.5 inline-block text-lg font-semibold tracking-[0.28em] text-[var(--ink)] transition-all duration-300 ease-out hover:translate-x-1 hover:tracking-[0.34em] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]"
                 >
                   ARCHER
-                  {/* Hover underline */}
-                  <span className="absolute -bottom-1 left-0 h-px w-0 bg-[var(--accent)] transition-all duration-300 ease-out hover:w-full" />
+                  {/* Hover underline - keyed to the link's own hover via group/link */}
+                  <span className="absolute -bottom-1 left-0 h-px w-0 bg-[var(--accent)] transition-all duration-300 ease-out group-hover/link:w-full" />
                 </Link>
               </div>
             </div>
@@ -103,7 +103,7 @@ export function Footer({ variant = "public-home" }: FooterProps) {
               Design
             </p>
 
-            <p className="mt-3 text-xs text-[var(--muted)] transition-colors duration-300 group-hover:text-[var(--ink-soft)]">
+            <p className="mt-3 text-xs text-[var(--muted)] transition-colors duration-300 hover:text-[var(--accent)] group-hover:text-[var(--ink-soft)]">
               © {new Date().getFullYear()} ARCHER
             </p>
           </div>
@@ -137,7 +137,7 @@ export function Footer({ variant = "public-home" }: FooterProps) {
 
         {/* Minimal footer metadata */}
         <div className="mt-5 flex flex-col gap-2 text-[9px] uppercase tracking-[0.2em] text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
-          <span className="transition-all duration-300 hover:translate-x-1 hover:text-[var(--ink-soft)]">
+          <span className="cursor-default transition-all duration-300 hover:translate-x-1 hover:text-[var(--ink-soft)]">
             Independent digital work
           </span>
 
@@ -145,7 +145,7 @@ export function Footer({ variant = "public-home" }: FooterProps) {
             /
           </span>
 
-          <span className="transition-all duration-300 hover:-translate-x-1 hover:text-[var(--ink-soft)]">
+          <span className="cursor-default transition-all duration-300 hover:-translate-x-1 hover:text-[var(--ink-soft)]">
             Built for the web
           </span>
         </div>

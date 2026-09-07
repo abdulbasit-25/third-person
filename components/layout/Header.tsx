@@ -46,33 +46,39 @@ function Brand({ section, href }: { section: string; href?: string }) {
       {/* Mark */}
       <span
         aria-hidden="true"
-        className={`relative flex h-10 w-10 shrink-0 items-center justify-center border border-[var(--line-strong)] bg-[var(--paper)] ${transition} group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)]`}
+        className={`group/mark relative flex h-10 w-10 shrink-0 items-center justify-center border border-[var(--line-strong)] bg-[var(--paper)] ${transition} group-hover/mark:-translate-y-0.5 group-hover/mark:scale-[1.04] group-hover/mark:border-[var(--accent)] group-hover/mark:shadow-[0_8px_24px_rgba(180,93,60,0.14)]`}
       >
+        {/* Accent glow */}
+        <span className="absolute inset-0 bg-[var(--accent)] opacity-0 blur-xl transition-opacity duration-500 group-hover/mark:opacity-10" />
+
         {/* Inner frame */}
-        <span className="absolute inset-[5px] border border-[var(--line)] group-hover:border-white/30" />
+        <span className="absolute inset-[5px] border border-[var(--line)] transition-all duration-300 group-hover/mark:inset-[4px] group-hover/mark:border-[var(--accent)]/40" />
 
         {/* Crosshair */}
-        <span className="absolute left-1/2 top-2.5 h-5 w-px -translate-x-1/2 bg-[var(--line-strong)] group-hover:bg-white/40" />
-        <span className="absolute left-2.5 top-1/2 h-px w-5 -translate-y-1/2 bg-[var(--line-strong)] group-hover:bg-white/40" />
+        <span className="absolute left-1/2 top-2.5 h-5 w-px -translate-x-1/2 bg-[var(--line-strong)] transition-colors duration-300 group-hover/mark:bg-[var(--accent)]/60" />
+
+        <span className="absolute left-2.5 top-1/2 h-px w-5 -translate-y-1/2 bg-[var(--line-strong)] transition-colors duration-300 group-hover/mark:bg-[var(--accent)]/60" />
 
         {/* Center */}
-        <span className="relative z-10 h-2.5 w-2.5 rotate-45 bg-[var(--accent)] transition-transform duration-500 group-hover:rotate-[225deg] group-hover:bg-[var(--paper)]" />
+        <span className="relative z-10 h-2.5 w-2.5 rotate-45 bg-[var(--accent)] transition-all duration-500 ease-out group-hover/mark:rotate-[225deg] group-hover/mark:scale-110 group-hover/mark:bg-[var(--ink)]" />
 
         {/* Corner accents */}
-        <span className="absolute left-0 top-0 h-px w-3 bg-[var(--accent)]" />
-        <span className="absolute left-0 top-0 h-3 w-px bg-[var(--accent)]" />
+        <span className="absolute left-0 top-0 h-px w-3 bg-[var(--accent)] transition-all duration-300 group-hover/mark:w-5" />
 
-        <span className="absolute bottom-0 right-0 h-px w-3 bg-[var(--accent)]" />
-        <span className="absolute bottom-0 right-0 h-3 w-px bg-[var(--accent)]" />
+        <span className="absolute left-0 top-0 h-3 w-px bg-[var(--accent)] transition-all duration-300 group-hover/mark:h-5" />
+
+        <span className="absolute bottom-0 right-0 h-px w-3 bg-[var(--accent)] transition-all duration-300 group-hover/mark:w-5" />
+
+        <span className="absolute bottom-0 right-0 h-3 w-px bg-[var(--accent)] transition-all duration-300 group-hover/mark:h-5" />
       </span>
 
       {/* Wordmark */}
       <span className="flex min-w-0 flex-col">
-        <span className="text-[17px] font-semibold leading-none tracking-[0.22em] text-[var(--ink)]">
+        <span className="text-[17px] font-semibold leading-none tracking-[0.22em] text-[var(--ink)] transition-all duration-300 ease-out group-hover:tracking-[0.27em] group-hover:text-[var(--accent)]">
           MIRROR
         </span>
 
-        <span className="mt-1.5 truncate text-[8px] font-medium uppercase tracking-[0.22em] text-[var(--muted)]">
+        <span className="mt-1.5 truncate text-[8px] font-medium uppercase tracking-[0.22em] text-[var(--muted)] transition-colors duration-300 group-hover:text-[var(--ink-soft)]">
           {section}
         </span>
       </span>
@@ -105,19 +111,26 @@ function BackLink({ href, label }: { href: string; label: string }) {
       className={`group inline-flex items-center gap-3 ${focusRing}`}
     >
       <span
-        className={`flex h-9 w-9 items-center justify-center border border-[var(--line-strong)] bg-[var(--paper)] text-[var(--ink-soft)] ${transition} group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[var(--paper)]`}
+        className={`relative flex h-9 w-9 items-center justify-center overflow-hidden border border-[var(--line-strong)] bg-[var(--paper)] text-[var(--ink-soft)] ${transition} group-hover:-translate-x-0.5 group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[var(--paper)] group-hover:shadow-[0_6px_18px_rgba(180,93,60,0.16)]`}
       >
+        {/* Hover fill */}
+        <span className="absolute inset-0 origin-left scale-x-0 bg-[var(--accent)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
+
         <ArrowLeft
           aria-hidden="true"
-          className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-0.5"
+          className="relative z-10 h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1"
           strokeWidth={1.6}
         />
       </span>
 
       <span className="flex flex-col">
-        <span className={`${micro} text-[var(--muted)]`}>Return to</span>
+        <span
+          className={`${micro} text-[var(--muted)] transition-colors duration-300 group-hover:text-[var(--ink-soft)]`}
+        >
+          Return to
+        </span>
 
-        <span className="mt-0.5 text-xs font-medium text-[var(--ink)]">
+        <span className="mt-0.5 text-xs font-medium text-[var(--ink)] transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]">
           {label}
         </span>
       </span>
@@ -145,26 +158,39 @@ function PublicNavigation() {
           />
         </span>
 
-        <span className="h-1.5 w-1.5 rotate-45 border border-[var(--accent)]" />
+        <span className="h-1.5 w-1.5 rotate-45 border border-[var(--accent)] transition-all duration-300 group-hover:rotate-[135deg] group-hover:bg-[var(--accent)]" />
       </Link>
 
       {/* Main CTA */}
       <Link
         href="/register"
-        className={`group relative inline-flex min-h-[44px] items-center gap-3 overflow-hidden border border-[var(--accent)] bg-[var(--accent)] px-5 py-3 ${micro} text-[var(--paper)] shadow-[0_6px_20px_rgba(180,93,60,0.18)] ${transition} hover:-translate-y-0.5 hover:border-[var(--accent-hover)] hover:bg-[var(--accent-hover)] hover:shadow-[0_10px_28px_rgba(180,93,60,0.24)] ${focusRing}`}
+        className={`group relative inline-flex min-h-[44px] items-center gap-3 overflow-hidden border border-[var(--accent)] bg-[var(--accent)] px-5 py-3 ${micro} text-[var(--paper)] shadow-[0_6px_20px_rgba(180,93,60,0.18)] ${transition} hover:-translate-y-1 hover:border-[var(--accent-hover)] hover:bg-[var(--accent-hover)] hover:shadow-[0_14px_34px_rgba(180,93,60,0.28)] ${focusRing}`}
       >
-        <span className="relative z-10">Share a thought</span>
+        {/* Animated background sweep */}
+        <span
+          aria-hidden="true"
+          className="absolute inset-y-0 -left-1/2 w-1/2 -skew-x-12 bg-white/10 transition-all duration-500 ease-out group-hover:left-[115%]"
+        />
+
+        <span className="relative z-10 transition-transform duration-300 group-hover:-translate-x-0.5">
+          Share a thought
+        </span>
 
         <ArrowUpRight
           aria-hidden="true"
-          className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+          className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
           strokeWidth={1.6}
         />
 
-        {/* Decorative sweep */}
+        {/* Decorative orbit */}
         <span
           aria-hidden="true"
-          className="absolute -right-8 -top-8 h-20 w-20 rounded-full border border-white/20 transition-transform duration-500 group-hover:scale-[1.8]"
+          className="absolute -right-8 -top-8 h-20 w-20 rounded-full border border-white/20 transition-all duration-500 group-hover:scale-[1.9] group-hover:border-white/30"
+        />
+
+        <span
+          aria-hidden="true"
+          className="absolute -right-3 -top-3 h-2 w-2 rotate-45 bg-white/40 opacity-0 transition-all duration-300 group-hover:opacity-100"
         />
       </Link>
     </nav>
@@ -179,13 +205,15 @@ function SignOutButton() {
   return (
     <Link
       href="/api/auth/logout"
-      className={`group inline-flex min-h-[40px] items-center gap-2 border border-[var(--line-strong)] bg-[var(--paper)] px-3.5 py-2.5 ${micro} text-[var(--ink-soft)] ${transition} hover:border-[var(--accent)] hover:bg-[var(--accent-soft)]/30 hover:text-[var(--ink)] ${focusRing}`}
+      className={`group inline-flex min-h-[40px] items-center gap-2 border border-[var(--line-strong)] bg-[var(--paper)] px-3.5 py-2.5 ${micro} text-[var(--ink-soft)] ${transition} hover:-translate-y-0.5 hover:border-[var(--accent)] hover:bg-[var(--accent-soft)]/30 hover:text-[var(--ink)] hover:shadow-[0_6px_18px_rgba(180,93,60,0.10)] ${focusRing}`}
     >
-      <span>Sign out</span>
+      <span className="transition-transform duration-300 group-hover:-translate-x-0.5">
+        Sign out
+      </span>
 
       <LogOut
         aria-hidden="true"
-        className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
+        className="h-3.5 w-3.5 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[var(--accent)]"
         strokeWidth={1.6}
       />
     </Link>
@@ -204,7 +232,7 @@ function RightActions({ extra }: { extra?: ReactNode }) {
       {extra && (
         <span
           aria-hidden="true"
-          className="hidden h-5 w-px bg-[var(--line)] sm:block"
+          className="hidden h-5 w-px bg-[var(--line)] transition-colors duration-300 sm:block"
         />
       )}
 
@@ -287,7 +315,7 @@ export function Header({
           {/* Top architectural accent */}
           <span
             aria-hidden="true"
-            className="absolute left-0 top-0 h-0.5 w-24 bg-[var(--accent)]"
+            className="absolute left-0 top-0 h-0.5 w-24 origin-left bg-[var(--accent)] transition-all duration-500 group-hover:w-40"
           />
 
           <Brand section="Private perception archive" href="/" />
@@ -309,11 +337,13 @@ export function Header({
           />
 
           <div className="hidden items-center gap-3 sm:flex">
-            <span className={`${micro} text-[var(--muted)]`}>
+            <span
+              className={`${micro} text-[var(--muted)] transition-colors duration-300 hover:text-[var(--ink-soft)]`}
+            >
               Private access
             </span>
 
-            <span className="h-1.5 w-1.5 rotate-45 bg-[var(--accent)]" />
+            <span className="h-1.5 w-1.5 rotate-45 bg-[var(--accent)] transition-transform duration-300 hover:scale-125" />
           </div>
         </header>
       );
@@ -366,8 +396,9 @@ export function Header({
               <span className={`${micro} text-[var(--muted)]`}>Archive</span>
 
               <div className="mt-1 flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 bg-[var(--accent)]" />
-                <span className="text-[10px] text-[var(--ink-soft)]">
+                <span className="h-1.5 w-1.5 bg-[var(--accent)] transition-transform duration-300 hover:scale-125" />
+
+                <span className="text-[10px] text-[var(--ink-soft)] transition-colors duration-300 hover:text-[var(--ink)]">
                   Detail view
                 </span>
               </div>
