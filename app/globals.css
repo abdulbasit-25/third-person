@@ -162,6 +162,24 @@ video {
   border-color: var(--line);
 }
 
+.choice-button {
+  border: 1px solid var(--line);
+  transition:
+    border-color 0.2s var(--ease),
+    background-color 0.2s var(--ease),
+    color 0.2s var(--ease);
+}
+
+.choice-button:hover {
+  border-color: var(--accent);
+}
+
+.choice-button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+}
+
 .fade-up {
   animation: fade-up 0.65s var(--ease) both;
 }

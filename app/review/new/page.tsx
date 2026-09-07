@@ -149,6 +149,8 @@ export default function NewReviewPage() {
                 (item) => (
                   <button
                     key={item}
+                    type="button"
+                    aria-pressed={relationship.includes(item)}
                     onClick={() =>
                       setRelationship((current) =>
                         current.includes(item)
@@ -156,7 +158,7 @@ export default function NewReviewPage() {
                           : [...current, item],
                       )
                     }
-                    className={`border px-5 py-3 text-xs ${relationship.includes(item) ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "hairline"}`}
+                    className="choice-button px-5 py-3 text-xs"
                   >
                     {item}
                   </button>
@@ -250,6 +252,8 @@ export default function NewReviewPage() {
               {traits.map((trait) => (
                 <button
                   key={trait}
+                  type="button"
+                  aria-pressed={selectedTraits.includes(trait)}
                   onClick={() =>
                     setSelectedTraits((current) =>
                       current.includes(trait)
@@ -257,7 +261,7 @@ export default function NewReviewPage() {
                         : [...current, trait],
                     )
                   }
-                  className={`border px-5 py-3 text-xs ${selectedTraits.includes(trait) ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "hairline"}`}
+                  className="choice-button px-5 py-3 text-xs"
                 >
                   {trait}
                 </button>
@@ -324,10 +328,12 @@ export default function NewReviewPage() {
                   ].map((choice) => (
                     <button
                       key={choice}
+                      type="button"
+                      aria-pressed={quickChoices.energy === choice}
                       onClick={() =>
                         setQuickChoices({ ...quickChoices, energy: choice })
                       }
-                      className={`border px-4 py-3 text-xs ${quickChoices.energy === choice ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "hairline"}`}
+                      className="choice-button px-4 py-3 text-xs"
                     >
                       {choice}
                     </button>
@@ -369,8 +375,10 @@ export default function NewReviewPage() {
                 {["yes", "maybe", "not yet"].map((choice) => (
                   <button
                     key={choice}
+                    type="button"
+                    aria-pressed={workAgain === choice}
                     onClick={() => setWorkAgain(choice)}
-                    className={`border px-5 py-3 text-xs ${workAgain === choice ? "border-[var(--accent)] bg-[var(--accent)] text-white" : "hairline"}`}
+                    className="choice-button px-5 py-3 text-xs"
                   >
                     {choice}
                   </button>
