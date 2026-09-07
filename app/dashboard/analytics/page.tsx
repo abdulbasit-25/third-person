@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getDb } from "@/lib/mongodb";
+import { Header } from "@/components/layout/Header";
 
 export default async function AnalyticsPage() {
   const reviews = await (
@@ -30,14 +31,7 @@ export default async function AnalyticsPage() {
 
   return (
     <main className="mirror-grid min-h-screen px-6 py-8 md:px-10">
-      <header className="flex items-center justify-between border-b hairline pb-5">
-        <Link href="/dashboard" className="eyebrow">
-          ← Dashboard
-        </Link>
-        <Link href="/api/auth/logout" className="eyebrow">
-          Sign out
-        </Link>
-      </header>
+      <Header variant="dashboard-detail" />
       <section className="mx-auto max-w-5xl py-20">
         <p className="eyebrow mb-5 text-[var(--accent)]">Archive / analytics</p>
         <h1 className="display text-7xl leading-[.88]">

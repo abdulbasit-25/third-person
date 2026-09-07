@@ -1,17 +1,11 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { Header } from "@/components/layout/Header";
 import { AuthForm } from "@/components/auth-form";
 
 export default function LoginPage() {
   return (
     <main className="mirror-grid min-h-screen px-6 py-8 md:px-10">
-      <Link
-        href="/"
-        className="eyebrow inline-flex items-center gap-2 transition-colors hover:text-[var(--accent)]"
-      >
-        <ArrowLeft className="h-3 w-3" strokeWidth={1.75} />
-        Back to Mirror
-      </Link>
+      <Header variant="auth" />
       <div className="mx-auto grid max-w-5xl items-center gap-14 py-16 md:grid-cols-[.9fr_1.1fr] md:gap-16 md:py-24">
         <div>
           <p className="eyebrow mb-6">Reviewer access</p>

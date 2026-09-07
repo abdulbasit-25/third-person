@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ArrowUpRight, LogOut } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { getDb } from "@/lib/mongodb";
+import { Header } from "@/components/layout/Header";
 
 const NAV_ITEMS = [
   ["Reviews", "/dashboard/reviews"],
@@ -48,16 +49,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="mirror-grid min-h-screen px-6 py-10 md:px-12">
-      <header className="mx-auto flex max-w-7xl items-center justify-between border-b hairline pb-6">
-        <span className="eyebrow">Mirror — private archive</span>
-        <Link
-          href="/api/auth/logout"
-          className="group eyebrow inline-flex items-center gap-2 transition-colors hover:text-[var(--accent)]"
-        >
-          Sign out
-          <LogOut className="h-3 w-3" strokeWidth={1.75} />
-        </Link>
-      </header>
+      <Header variant="dashboard-root" wide />
 
       <section className="mx-auto max-w-7xl py-16 md:py-24">
         {/* Hero */}

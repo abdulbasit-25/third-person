@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ObjectId } from "mongodb";
 import { getSession } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
+import { Header } from "@/components/layout/Header";
 
 export default async function ReviewIntroPage() {
   const session = await getSession();
@@ -23,18 +24,12 @@ export default async function ReviewIntroPage() {
 
   return (
     <main className="mirror-grid min-h-screen px-6 py-8 md:px-10">
-      <header className="flex items-center justify-between border-b hairline pb-5">
-        <span className="eyebrow">Mirror / reviewer space</span>
-        <div className="flex items-center gap-5">
+      <Header
+        variant="reviewer-root"
+        rightContent={
           <span className="eyebrow">01 / 06</span>
-          <Link
-            href="/api/auth/logout"
-            className="eyebrow text-[var(--accent)]"
-          >
-            Sign out
-          </Link>
-        </div>
-      </header>
+        }
+      />
       <div className="mx-auto max-w-4xl py-28">
         <p className="eyebrow mb-8 text-[var(--accent)]">Before we begin</p>
         <h1 className="display max-w-3xl text-7xl leading-[.88] md:text-9xl">

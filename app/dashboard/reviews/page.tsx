@@ -1,6 +1,5 @@
-import Link from "next/link";
-import { ArrowLeft, LogOut } from "lucide-react";
 import { getDb } from "@/lib/mongodb";
+import { Header } from "@/components/layout/Header";
 import { ReviewerHistory } from "@/components/reviewer-history";
 
 export default async function ReviewsPage() {
@@ -68,22 +67,7 @@ export default async function ReviewsPage() {
 
   return (
     <main className="mirror-grid min-h-screen px-6 py-8 md:px-10">
-      <header className="flex items-center justify-between border-b hairline pb-5">
-        <Link
-          href="/dashboard"
-          className="eyebrow inline-flex items-center gap-2 transition-colors hover:text-[var(--accent)]"
-        >
-          <ArrowLeft className="h-3 w-3" strokeWidth={1.75} />
-          Dashboard
-        </Link>
-        <Link
-          href="/api/auth/logout"
-          className="eyebrow inline-flex items-center gap-2 transition-colors hover:text-[var(--accent)]"
-        >
-          Sign out
-          <LogOut className="h-3 w-3" strokeWidth={1.75} />
-        </Link>
-      </header>
+      <Header variant="dashboard-sub" />
 
       <section className="mx-auto max-w-5xl py-14 md:py-20">
         <p className="eyebrow mb-5 text-[var(--accent)]">Archive / reviews</p>

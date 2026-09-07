@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ObjectId } from "mongodb";
 import { getDb } from "@/lib/mongodb";
+import { Header } from "@/components/layout/Header";
 import { ReviewResponseForm } from "@/components/review-response-form";
 
 function answerLabel(key: string) {
@@ -36,14 +36,11 @@ export default async function PersonHistoryPage({
 
   return (
     <main className="mirror-grid min-h-screen px-6 py-8 md:px-10">
-      <header className="flex items-center justify-between border-b hairline pb-5">
-        <Link href="/dashboard/people" className="eyebrow">
-          ← People
-        </Link>
-        <Link href="/api/auth/logout" className="eyebrow">
-          Sign out
-        </Link>
-      </header>
+      <Header
+        variant="dashboard-detail"
+        backLabel="People"
+        backHref="/dashboard/people"
+      />
       <section className="mx-auto max-w-5xl py-20">
         <p className="eyebrow mb-5 text-[var(--accent)]">
           Person / review history
