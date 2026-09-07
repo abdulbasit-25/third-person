@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 const notes = [
   ["01", "How do people experience you when you walk into a room?"],
@@ -19,10 +20,14 @@ export default function Home() {
             Reviewer login
           </Link>
           <Link
-            className="border border-[var(--ink)] px-4 py-2 transition-colors hover:bg-[var(--ink)] hover:text-[var(--paper)]"
+            className="group inline-flex items-center gap-1.5 border border-[var(--ink)] px-4 py-2 transition-colors hover:bg-[var(--ink)] hover:text-[var(--paper)]"
             href="/register"
           >
-            Share a thought ↗
+            Share a thought
+            <ArrowUpRight
+              className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              strokeWidth={1.75}
+            />
           </Link>
         </div>
       </nav>
@@ -32,7 +37,7 @@ export default function Home() {
           <h1 className="display max-w-4xl text-[clamp(4.5rem,12vw,10.5rem)] leading-[.82]">
             A mirror,
             <br />
-            <i>held open.</i>
+            held open.
           </h1>
           <p className="mt-12 max-w-md font-serif text-xl leading-relaxed text-[var(--muted)]">
             A private collection of honest observations from the people who have
@@ -41,17 +46,21 @@ export default function Home() {
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-5">
             <Link
-              className="bg-[var(--accent)] px-6 py-4 text-[11px] uppercase tracking-[.13em] text-white transition-transform hover:-translate-y-1"
+              className="group inline-flex items-center gap-2 bg-[var(--accent)] px-6 py-4 text-[11px] uppercase tracking-[.13em] text-[var(--paper)] transition-transform hover:-translate-y-1"
               href="/register"
             >
-              Leave your perspective ↗
+              Leave your perspective
+              <ArrowUpRight
+                className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                strokeWidth={1.75}
+              />
             </Link>
             <span className="eyebrow">No performance required</span>
           </div>
         </div>
         <div className="relative flex min-h-[390px] items-end border-l hairline pl-8 md:mt-20 md:min-h-[470px]">
-          <div className="absolute right-0 top-0 font-serif text-[9rem] leading-none text-[var(--accent-soft)] opacity-70">
-            “
+          <div className="absolute right-0 top-0 font-serif text-[6rem] leading-none text-[var(--accent-soft)] opacity-70 md:text-[9rem]">
+            &ldquo;
           </div>
           <div className="relative max-w-sm pb-2">
             <p className="eyebrow mb-6">The premise</p>

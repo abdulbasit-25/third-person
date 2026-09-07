@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ReviewResponseForm } from "@/components/review-response-form";
+import { ArrowLeft, LogOut } from "lucide-react";
 import { getDb } from "@/lib/mongodb";
+import { ReviewerHistory } from "@/components/reviewer-history";
 
 export default async function ReviewsPage() {
   const reviews = await (
@@ -36,102 +37,73 @@ export default async function ReviewsPage() {
     ])
     .toArray();
 
+  // Group by reviewer. Sort already puts each reviewer's versions together,
+  // newest first, so group[0] is always the latest version.
+  const groupsByReviewer = new Map<string, typeof reviews>();
+  for (const review of reviews) {
+    const key = review.reviewerId.toString();
+    const group = groupsByReviewer.get(key) ?? [];
+    group.push(review);
+    groupsByReviewer.set(key, group);
+  }
+
+  const serialize = (review: (typeof reviews)[number]) => ({
+    id: review._id.toString(),
+    finalRating: review.finalRating,
+    finalSentence: review.finalSentence,
+    answers: review.answers || {},
+    traits: review.traits || [],
+    adminResponse: review.adminResponse ?? null,
+    version: review.version,
+    isCurrent: Boolean(review.isCurrent),
+    createdAt: new Date(review.createdAt).toISOString(),
+  });
+
+  const reviewerGroups = Array.from(groupsByReviewer.values()).map((group) => ({
+    reviewerName: group[0].reviewer?.displayName || "Anonymous reviewer",
+    reviewerStatus: group[0].reviewer?.status || "Reviewer",
+    latest: serialize(group[0]),
+    history: group.slice(1).map(serialize),
+  }));
+
   return (
     <main className="mirror-grid min-h-screen px-6 py-8 md:px-10">
       <header className="flex items-center justify-between border-b hairline pb-5">
-        <Link href="/dashboard" className="eyebrow">
-          ← Dashboard
+        <Link
+          href="/dashboard"
+          className="eyebrow inline-flex items-center gap-2 transition-colors hover:text-[var(--accent)]"
+        >
+          <ArrowLeft className="h-3 w-3" strokeWidth={1.75} />
+          Dashboard
         </Link>
-        <Link href="/api/auth/logout" className="eyebrow">
+        <Link
+          href="/api/auth/logout"
+          className="eyebrow inline-flex items-center gap-2 transition-colors hover:text-[var(--accent)]"
+        >
           Sign out
+          <LogOut className="h-3 w-3" strokeWidth={1.75} />
         </Link>
       </header>
-      <section className="mx-auto max-w-5xl py-20">
+
+      <section className="mx-auto max-w-5xl py-14 md:py-20">
         <p className="eyebrow mb-5 text-[var(--accent)]">Archive / reviews</p>
-        <h1 className="display text-7xl leading-[.88]">
+        <h1 className="display text-5xl leading-[0.92] sm:text-6xl lg:text-7xl lg:leading-[0.9]">
           Read the
           <br />
-          <i>whole note.</i>
+          whole note
         </h1>
-        <p className="mt-8 max-w-xl font-serif text-xl leading-relaxed text-[var(--muted)]">
-          Read each perspective in context, then answer it with the same care it
-          took to write.
+        <p className="mt-8 max-w-xl font-serif text-lg leading-relaxed text-[var(--muted)] sm:text-xl">
+          Choose a reviewer to read their latest perspective in full, plus every
+          earlier version they've written.
         </p>
-        <div className="mt-16 divide-y hairline">
-          {reviews.length ? (
-            reviews.map((review) => (
-              <article className="py-10" key={review._id.toString()}>
-                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
-                  <div>
-                    <Link
-                      href={`/dashboard/people/${review.reviewerId.toString()}`}
-                      className="display text-3xl transition-colors hover:text-[var(--accent)]"
-                    >
-                      {review.reviewer?.displayName || "Anonymous reviewer"}
-                    </Link>
-                    <div className="mt-3 flex flex-wrap items-center gap-3">
-                      <p className="eyebrow">
-                        {review.reviewer?.status || "Reviewer"}
-                      </p>
-                      <span
-                        className={`eyebrow border px-2 py-1 ${review.isCurrent ? "border-[var(--accent)] text-[var(--accent)]" : "hairline text-[var(--muted)]"}`}
-                      >
-                        {review.isCurrent
-                          ? "Latest version"
-                          : `Version ${review.version}`}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="text-left md:text-right">
-                    <p className="eyebrow">Overall feeling</p>
-                    <strong className="display text-5xl">
-                      {review.finalRating}/10
-                    </strong>
-                  </div>
-                </div>
-                <p className="mt-8 max-w-3xl font-serif text-2xl leading-relaxed">
-                  {review.finalSentence || "No final sentence was added."}
-                </p>
-                <div className="mt-8 grid gap-5 border-y hairline py-6">
-                  {Object.entries(review.answers || {})
-                    .filter(([, value]) => value)
-                    .map(([key, value]) => (
-                      <div key={key}>
-                        <p className="font-bold text-xs uppercase tracking-[.14em] text-[var(--accent)]">
-                          {key === "firstImpression"
-                            ? "First Impression"
-                            : key === "proudMoment"
-                              ? "Proud Moment"
-                              : key === "honestAdvice"
-                                ? "Honest Advice"
-                                : key.replace(/([A-Z])/g, " $1")}
-                        </p>
-                        <p className="max-w-3xl whitespace-pre-wrap break-words font-serif text-lg leading-relaxed text-[var(--muted)]">
-                          {String(value)}
-                        </p>
-                      </div>
-                    ))}
-                </div>
-                {review.traits?.length ? (
-                  <p className="mt-5 text-xs uppercase tracking-[.12em] text-[var(--accent)]">
-                    {review.traits.join(" / ")}
-                  </p>
-                ) : null}
-                {review.isCurrent ? (
-                  <ReviewResponseForm
-                    reviewId={review._id.toString()}
-                    initialResponse={review.adminResponse}
-                  />
-                ) : (
-                  <p className="mt-6 border-t hairline pt-5 text-xs text-[var(--muted)]">
-                    Archived version. Responses can only be written to the
-                    latest review.
-                  </p>
-                )}
-              </article>
+
+        <div className="mt-14 divide-y hairline sm:mt-16">
+          {reviewerGroups.length ? (
+            reviewerGroups.map((group) => (
+              <ReviewerHistory key={group.latest.id} {...group} />
             ))
           ) : (
-            <p className="py-12 font-serif text-2xl text-[var(--muted)]">
+            <p className="py-12 font-serif text-xl text-[var(--muted)] sm:text-2xl">
               No reviews have arrived yet.
             </p>
           )}
