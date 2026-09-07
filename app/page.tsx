@@ -28,7 +28,7 @@ export default function Home() {
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-5">
             <Link
-              className="group inline-flex items-center gap-2 bg-[var(--accent)] px-6 py-4 text-[11px] uppercase tracking-[.13em] text-[var(--paper)] transition-transform hover:-translate-y-1"
+              className="action-button action-button--accent group inline-flex items-center gap-2 px-6 py-4 text-[11px] uppercase tracking-[.13em]"
               href="/register"
             >
               Leave your perspective
