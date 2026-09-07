@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 import { ratingCategories, traits } from "@/lib/constants";
 export default function NewReviewPage() {
@@ -29,6 +30,17 @@ export default function NewReviewPage() {
   if (sent)
     return (
       <main className="mirror-grid min-h-screen px-6 py-10 md:px-10">
+        <header className="flex justify-between border-b hairline pb-5">
+          <Link href="/review/intro" className="eyebrow">
+            ← Reviewer space
+          </Link>
+          <Link
+            href="/api/auth/logout"
+            className="eyebrow text-[var(--accent)]"
+          >
+            Sign out
+          </Link>
+        </header>
         <div className="mx-auto max-w-3xl py-24">
           <p className="eyebrow text-[var(--accent)]">Review saved</p>
           <h1 className="display mt-6 text-8xl leading-[.88]">
@@ -40,6 +52,12 @@ export default function NewReviewPage() {
             Thank you for giving this the time it deserved. You can return and
             update your perspective whenever it changes.
           </p>
+          <Link
+            href="/review/intro"
+            className="mt-10 inline-block border border-[var(--ink)] px-6 py-4 text-[11px] uppercase tracking-[.14em] transition-colors hover:bg-[var(--ink)] hover:text-[var(--paper)]"
+          >
+            Return to your space ↗
+          </Link>
         </div>
       </main>
     );
@@ -72,10 +90,17 @@ export default function NewReviewPage() {
   return (
     <main className="mirror-grid min-h-screen px-6 py-8 md:px-10">
       <header className="flex justify-between border-b hairline pb-5">
-        <span className="eyebrow">ABDUL BASIT — BSAI&apos;24, SZABIST</span>
-        <span className="eyebrow text-[var(--accent)]">
-          0{step} / 0{max}
-        </span>
+        <Link href="/review/intro" className="eyebrow">
+          ← Reviewer space
+        </Link>
+        <div className="flex items-center gap-5">
+          <span className="eyebrow text-[var(--accent)]">
+            0{step} / 0{max}
+          </span>
+          <Link href="/api/auth/logout" className="eyebrow">
+            Sign out
+          </Link>
+        </div>
       </header>
       <div className="mx-auto max-w-3xl py-20">
         <p className="eyebrow mb-6">

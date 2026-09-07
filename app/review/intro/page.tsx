@@ -1,11 +1,40 @@
 import Link from "next/link";
-export default function ReviewIntroPage() {
+import { ObjectId } from "mongodb";
+import { getSession } from "@/lib/auth";
+import { getDb } from "@/lib/mongodb";
+
+export default async function ReviewIntroPage() {
+  const session = await getSession();
+  const review = session
+    ? await (await getDb())
+        .collection("reviews")
+        .findOne(
+          { reviewerId: new ObjectId(session.sub), isCurrent: true },
+          {
+            projection: {
+              adminResponse: 1,
+              finalRating: 1,
+              updatedAt: 1,
+              createdAt: 1,
+            },
+          },
+        )
+    : null;
+
   return (
     <main className="mirror-grid min-h-screen px-6 py-8 md:px-10">
-      <div className="flex justify-between">
+      <header className="flex items-center justify-between border-b hairline pb-5">
         <span className="eyebrow">Mirror / reviewer space</span>
-        <span className="eyebrow">01 / 06</span>
-      </div>
+        <div className="flex items-center gap-5">
+          <span className="eyebrow">01 / 06</span>
+          <Link
+            href="/api/auth/logout"
+            className="eyebrow text-[var(--accent)]"
+          >
+            Sign out
+          </Link>
+        </div>
+      </header>
       <div className="mx-auto max-w-4xl py-28">
         <p className="eyebrow mb-8 text-[var(--accent)]">Before we begin</p>
         <h1 className="display max-w-3xl text-7xl leading-[.88] md:text-9xl">
@@ -26,6 +55,18 @@ export default function ReviewIntroPage() {
             Start the review ↗
           </Link>
         </div>
+        {review?.adminResponse && (
+          <section className="mt-16 max-w-2xl border-l-2 border-[var(--accent)] bg-[var(--paper-deep)] px-6 py-6">
+            <p className="eyebrow text-[var(--accent)]">A note from Basit</p>
+            <p className="mt-4 font-serif text-2xl leading-relaxed">
+              {review.adminResponse}
+            </p>
+            <p className="mt-5 text-xs text-[var(--muted)]">
+              Your previous perspective is still part of the archive. Update it
+              whenever it changes.
+            </p>
+          </section>
+        )}
       </div>
     </main>
   );
