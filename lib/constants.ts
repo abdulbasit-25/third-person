@@ -1,0 +1,27 @@
+export const ratingCategories = [
+  "overall",
+  "problemSolving",
+  "technicalSkills",
+  "teamwork",
+  "communication",
+  "personality",
+  "friendliness",
+  "ambition",
+  "reliability",
+  "academicAbility",
+  "leadership",
+] as const;
+export const traits = [
+  "Thoughtful",
+  "Sharp",
+  "Dependable",
+  "Curious",
+  "Warm",
+  "Direct",
+  "Funny",
+  "Ambitious",
+  "Grounded",
+  "Creative",
+  "Calm",
+  "Resourceful",
+];

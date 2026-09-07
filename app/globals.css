@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #182329;
+  --paper: #f3efe7;
+  --paper-deep: #e7e0d4;
+  --line: rgba(24, 35, 41, 0.16);
+  --muted: #69736f;
+  --accent: #b45d3c;
+  --accent-soft: #e1b29d;
+  --serif: Georgia, "Times New Roman", serif;
+  --mono: "Courier New", Courier, monospace;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  background: var(--paper);
+}
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--mono);
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+.mirror-grid {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(rgba(24, 35, 41, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 35, 41, 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+.display {
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+.eyebrow {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.hairline {
+  border-color: var(--line);
+}
+.fade-up {
+  animation: fade-up 0.65s ease both;
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    animation: none;
+  }
+}
