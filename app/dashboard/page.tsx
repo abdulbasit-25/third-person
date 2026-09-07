@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { getDb } from "@/lib/mongodb";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 const NAV_ITEMS = [
   ["Reviews", "/dashboard/reviews"],
@@ -175,6 +176,7 @@ export default async function DashboardPage() {
           </div>
         </div>
       </section>
+      <Footer />
     </main>
   );
 }

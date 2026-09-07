@@ -1,5 +1,6 @@
 import { getDb } from "@/lib/mongodb";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 export default async function ExportPage() {
   const reviews = await (
@@ -59,6 +60,7 @@ export default async function ExportPage() {
           {JSON.stringify(data, null, 2)}
         </pre>
       </section>
+      <Footer />
     </main>
   );
 }

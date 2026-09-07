@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import { getSession } from "@/lib/auth";
 import { getDb } from "@/lib/mongodb";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 export default async function ReviewIntroPage() {
   const session = await getSession();

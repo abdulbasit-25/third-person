@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { ObjectId } from "mongodb";
 import { getDb } from "@/lib/mongodb";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { ReviewResponseForm } from "@/components/review-response-form";
 
 function answerLabel(key: string) {

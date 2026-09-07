@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { AuthForm } from "@/components/auth-form";
 
 export default function LoginPage() {

@@ -1,5 +1,6 @@
 import { getDb } from "@/lib/mongodb";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { ReviewerHistory } from "@/components/reviewer-history";
 
 export default async function ReviewsPage() {

@@ -1,5 +1,6 @@
 import { getDb } from "@/lib/mongodb";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 export default async function TimelinePage() {
   const reviews = await (

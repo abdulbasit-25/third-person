@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getDb } from "@/lib/mongodb";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 export default async function AnalyticsPage() {
   const reviews = await (
@@ -75,6 +76,7 @@ export default async function AnalyticsPage() {
           </div>
         </div>
       </section>
+      <Footer />
     </main>
   );
 }

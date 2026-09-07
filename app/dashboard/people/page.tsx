@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getDb } from "@/lib/mongodb";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 export default async function PeoplePage() {
   const people = await (
@@ -56,6 +57,7 @@ export default async function PeoplePage() {
           )}
         </div>
       </section>
+      <Footer />
     </main>
   );
 }

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ratingCategories, traits } from "@/lib/constants";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 const wordCount = (value: string) =>
   value.trim().split(/\s+/).filter(Boolean).length;
