@@ -22,12 +22,12 @@ export default function LoginPage() {
         </div>
         <div className="border-t hairline pt-10 md:border-l md:border-t-0 md:pl-14 md:pt-0">
           <AuthForm mode="login" />
-          <p className="mt-8 text-center text-xs text-[var(--muted)]">
+          {/* <p className="mt-8 text-center text-xs text-[var(--muted)]">
             New here?{" "}
             <Link className="action-link text-[var(--accent)]" href="/register">
               Create a reviewer account
             </Link>
-          </p>
+          </p> */}
           <p className="mt-3 text-center text-xs text-[var(--muted)]">
             Administrator?{" "}
             <Link

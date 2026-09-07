@@ -23,35 +23,9 @@ function FooterBackButton({
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className="
-    group relative
-    inline-flex items-center gap-2
-    rounded-md
-    px-3 py-2
-    text-sm font-medium
-    text-gray-600
-    transition-colors duration-200
-    hover:text-gray-900
-    disabled:cursor-not-allowed
-    disabled:opacity-30
-  "
+      className="action-link eyebrow disabled:opacity-30"
     >
-      <span aria-hidden="true">←</span>
-      <span className="relative">
-        Back
-        <span
-          className="
-        absolute
-        bottom-0 left-0
-        h-[1.5px] w-full
-        origin-left
-        scale-x-0
-        bg-gray-900
-        transition-transform duration-300 ease-out
-        group-hover:scale-x-100
-      "
-        />
-      </span>
+      Back
     </button>
   );
 }
@@ -230,9 +204,10 @@ export default function NewReviewPage() {
           </p>
           <Link
             href="/review/intro"
-            className="mt-10 inline-block border border-[var(--ink)] px-6 py-4 text-[11px] uppercase tracking-[.14em] transition-colors hover:bg-[var(--ink)] hover:text-[var(--paper)]"
+            className="review-nav-action action-button action-button--accent mt-10 inline-flex items-center justify-center gap-3 text-[11px] uppercase tracking-[.14em]"
           >
-            Return to your space ↗
+            Return to your space
+            <ArrowUpRight aria-hidden="true" className="h-4 w-4" strokeWidth={1.6} />
           </Link>
         </div>
       </main>
@@ -299,7 +274,6 @@ export default function NewReviewPage() {
           </div>
         }
       />
-
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-12 pb-32 pt-16 md:grid-cols-[3rem_1fr]">
         {/* Vertical step index — desktop only */}
         <nav className="hidden flex-col gap-5 md:flex">
@@ -681,7 +655,7 @@ export default function NewReviewPage() {
           )}
         </div>
       </footer>
-      {/* <Footer /> */}
+      <Footer />
     </main>
   );
 }
