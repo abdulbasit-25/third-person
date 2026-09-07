@@ -17,22 +17,31 @@ export function AuthForm({ mode }: { mode: "login" | "register" | "admin" }) {
         : mode === "admin"
           ? "/api/auth/admin-login"
           : "/api/auth/login";
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(
-        mode === "register"
-          ? { ...data, status: data.status || "student" }
-          : data,
-      ),
-    });
-    const result = await response.json();
-    setLoading(false);
-    if (!response.ok) {
-      setError(result.error);
-      return;
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+          mode === "register"
+            ? { ...data, status: data.status || "student" }
+            : data,
+        ),
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        setError(result.error || "We could not complete that request.");
+        return;
+      }
+      router.push(
+        result.role === "admin" || mode === "admin"
+          ? "/dashboard"
+          : "/review/intro",
+      );
+    } catch {
+      setError("The server could not be reached. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    router.push(mode === "admin" ? "/dashboard" : "/review/intro");
   }
   return (
     <form onSubmit={submit} className="space-y-5">

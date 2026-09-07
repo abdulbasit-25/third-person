@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     const input = loginSchema.parse(await request.json());
     const user = await (await getDb())
       .collection("user")
-      .findOne({ username: input.username.toLowerCase(), role: "reviewer" });
+      .findOne({ username: input.username.toLowerCase() });
     if (!user || !(await verifyPassword(input.password, user.passwordHash)))
       return NextResponse.json(
         { error: "Username or password is incorrect." },
@@ -24,8 +24,8 @@ export async function POST(request: Request) {
       sessionCookie(
         signSession({
           sub: user._id.toString(),
-          role: "reviewer",
-          status: user.status,
+          role: user.role,
+          ...(user.role === "reviewer" ? { status: user.status } : {}),
         }),
       ),
     );
