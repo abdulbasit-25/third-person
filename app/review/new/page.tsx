@@ -23,9 +23,35 @@ function FooterBackButton({
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className="action-link eyebrow disabled:opacity-30"
+      className="
+    group relative
+    inline-flex items-center gap-2
+    rounded-md
+    px-3 py-2
+    text-sm font-medium
+    text-gray-600
+    transition-colors duration-200
+    hover:text-gray-900
+    disabled:cursor-not-allowed
+    disabled:opacity-30
+  "
     >
-      Back
+      <span aria-hidden="true">←</span>
+      <span className="relative">
+        Back
+        <span
+          className="
+        absolute
+        bottom-0 left-0
+        h-[1.5px] w-full
+        origin-left
+        scale-x-0
+        bg-gray-900
+        transition-transform duration-300 ease-out
+        group-hover:scale-x-100
+      "
+        />
+      </span>
     </button>
   );
 }
@@ -48,7 +74,7 @@ function FooterActionButton({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`action-button action-button--accent inline-flex min-h-[44px] items-center gap-3 px-5 py-3 ${micro} disabled:opacity-60 ${loading ? "cursor-wait" : ""}`}
+      className={`review-nav-action action-button action-button--accent inline-flex items-center gap-3 ${micro} disabled:opacity-60 ${loading ? "cursor-wait" : ""}`}
     >
       <span>{loading ? (loadingLabel ?? "Saving...") : label}</span>
       <ArrowUpRight aria-hidden="true" className="h-4 w-4" strokeWidth={1.6} />
@@ -655,7 +681,7 @@ export default function NewReviewPage() {
           )}
         </div>
       </footer>
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }
