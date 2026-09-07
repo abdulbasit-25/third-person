@@ -130,10 +130,13 @@ in `components/ui/ChoiceButton.tsx`.
    ```env
    MONGODB_URI=mongodb://127.0.0.1:27017/mirror
    JWT_SECRET=replace-with-at-least-32-random-characters
+    NEXT_PUBLIC_SITE_URL=http://localhost:3000
    ```
 
-   `.env.example` contains the required application variables. Keep
-   `.env.local` out of version control.
+   `NEXT_PUBLIC_SITE_URL` should be the deployed origin in production:
+   `https://archiveme.vercel.app`. It is used for canonical URLs, Open Graph
+   links, `robots.txt`, and the sitemap. `.env.example` contains the required
+   application variables. Keep `.env.local` out of version control.
 
 3. Seed the administrator and database indexes. The seed command requires
    administrator credentials at runtime; they are deliberately not stored in
@@ -282,8 +285,9 @@ the authoritative boundary.
 
 Mirror can be deployed as a standard Next.js application on Vercel.
 
-1. Add `MONGODB_URI` and `JWT_SECRET` to the Vercel project for the required
-   environments.
+1. Add `MONGODB_URI`, `JWT_SECRET`, and `NEXT_PUBLIC_SITE_URL` to the Vercel
+   project for the required environments. Set `NEXT_PUBLIC_SITE_URL` to
+   `https://archiveme.vercel.app`.
 2. Allow the deployment to connect to MongoDB Atlas through the Atlas network
    access configuration.
 3. Run the seed command once with `MONGODB_URI`,
