@@ -2,9 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://archiveme.vercel.app",
-  ),
+  metadataBase: new URL(process.env.SITE_URL || "https://archiveme.vercel.app"),
   title: "Mirror / Abdul Basit",
   description:
     "Mirror is a private perception archive for Abdul Basit - honest perspectives, remembered moments, and a more complete picture over time.",
