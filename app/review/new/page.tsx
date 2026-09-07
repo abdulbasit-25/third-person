@@ -17,8 +17,9 @@ const steps = [
   "The instinct",
 ];
 
-// Editorial/print-style toggle: square corners, bracket markers instead of
-// filled pills, underline on selection rather than a solid fill.
+// Editorial/print-style toggle: a real bordered box (fits the ruled-grid
+// background), with a solid ink fill on selection so the state reads at a
+// glance rather than relying on a color shift alone.
 function ChoiceButton({
   active,
   onClick,
@@ -34,19 +35,25 @@ function ChoiceButton({
       aria-pressed={active}
       onClick={onClick}
       className={[
-        "group flex items-center gap-2 border px-4 py-2.5 text-xs uppercase tracking-[.1em] transition-colors duration-150",
+        "flex items-center gap-2 border px-4 py-2.5 text-xs uppercase tracking-[.1em] transition-all duration-150",
         active
-          ? "border-[var(--ink)] bg-[var(--paper)] text-[var(--ink)]"
-          : "border-[var(--ink)]/20 text-[var(--muted)] hover:border-[var(--ink)]/50 hover:text-[var(--ink)]",
+          ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]"
+          : "border-[var(--ink)]/25 bg-[var(--paper)] text-[var(--ink)]/70 hover:border-[var(--ink)]/60 hover:text-[var(--ink)]",
       ].join(" ")}
     >
+      {/* radio-style indicator: outlined circle, dot fills on selection */}
       <span
         className={[
-          "font-serif text-base leading-none transition-opacity",
-          active ? "opacity-100" : "opacity-0 group-hover:opacity-30",
+          "flex h-3 w-3 shrink-0 items-center justify-center rounded-full border transition-colors",
+          active ? "border-[var(--paper)]" : "border-[var(--ink)]/35",
         ].join(" ")}
       >
-        ✕
+        <span
+          className={[
+            "h-1.5 w-1.5 rounded-full transition-transform",
+            active ? "scale-100 bg-[var(--paper)]" : "scale-0 bg-transparent",
+          ].join(" ")}
+        />
       </span>
       {children}
     </button>

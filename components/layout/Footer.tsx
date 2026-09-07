@@ -15,7 +15,7 @@ export function Footer({ variant = "public-home" }: FooterProps) {
       {/* Animated accent line */}
       <div className="absolute left-0 top-0 h-px w-32 origin-left bg-gradient-to-r from-[var(--accent)] to-transparent transition-all duration-500 ease-out group-hover:w-72" />
 
-      <div className="mx-auto max-w-7xl px-6 py-14 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-6xl px-6 py-14 sm:px-8 lg:px-10">
         {/* Main footer */}
         <div className="flex flex-col gap-12 sm:flex-row sm:items-end sm:justify-between">
           {/* Brand */}
@@ -75,7 +75,7 @@ export function Footer({ variant = "public-home" }: FooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Visit ARCHER portfolio"
-                  className="group/link relative mt-0.5 inline-block text-lg font-semibold tracking-[0.28em] text-[var(--ink)] transition-all duration-300 ease-out hover:translate-x-1 hover:tracking-[0.34em] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]"
+                  className="group/link relative mt-0.5 inline-block text-lg font-semibold tracking-[0.28em] text-[var(--ink)] underline-offset-4 transition-all duration-300 ease-out hover:translate-x-1 hover:tracking-[0.34em] hover:text-[var(--accent)] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]"
                 >
                   ARCHER
                   {/* Hover underline - keyed to the link's own hover via group/link */}
