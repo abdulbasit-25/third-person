@@ -60,7 +60,10 @@ export default async function DashboardPage() {
             A living archive of perception, collected with care.
           </p>
         </div>
-        <div className="grid gap-px bg-[var(--line)] md:grid-cols-3">
+        <div
+          id="analytics"
+          className="grid gap-px bg-[var(--line)] md:grid-cols-3"
+        >
           <div className="bg-[var(--paper)] p-8">
             <span className="eyebrow">Current reviews</span>
             <strong className="display mt-6 block text-7xl">
@@ -80,7 +83,7 @@ export default async function DashboardPage() {
             </strong>
           </div>
         </div>
-        <section className="mt-16">
+        <section id="reviews" className="mt-16">
           <div className="flex items-end justify-between border-b hairline pb-4">
             <div>
               <p className="eyebrow mb-2 text-[var(--accent)]">The archive</p>
@@ -89,7 +92,7 @@ export default async function DashboardPage() {
             <span className="eyebrow">{reviews.length} received</span>
           </div>
           {reviews.length ? (
-            <div className="divide-y hairline">
+            <div id="people" className="divide-y hairline">
               {reviews.map((review) => (
                 <article
                   className="grid gap-6 py-8 md:grid-cols-[.7fr_1.5fr_auto]"
@@ -124,14 +127,22 @@ export default async function DashboardPage() {
         <div className="mt-16 grid gap-10 md:grid-cols-[1fr_1.4fr]">
           <div>
             <p className="eyebrow mb-4">Archive navigation</p>
-            {["Reviews", "People", "Analytics", "Timeline", "Export"].map(
-              (item) => (
-                <div className="border-b hairline py-4 text-xl" key={item}>
-                  {item}
-                  <span className="float-right text-[var(--accent)]">↗</span>
-                </div>
-              ),
-            )}
+            {[
+              ["Reviews", "/dashboard/reviews"],
+              ["People", "/dashboard/people"],
+              ["Analytics", "/dashboard/analytics"],
+              ["Timeline", "/dashboard/timeline"],
+              ["Export", "/dashboard/export"],
+            ].map(([item, href]) => (
+              <a
+                className="block border-b hairline py-4 text-xl transition-colors hover:text-[var(--accent)]"
+                href={href}
+                key={item}
+              >
+                {item}
+                <span className="float-right text-[var(--accent)]">↗</span>
+              </a>
+            ))}
           </div>
           <div className="border-l hairline pl-10">
             <p className="eyebrow mb-5">A note to the administrator</p>

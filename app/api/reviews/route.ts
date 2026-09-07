@@ -91,6 +91,8 @@ export async function GET(request: Request) {
           finalRating: 1,
           workAgain: 1,
           finalSentence: 1,
+          adminResponse: 1,
+          respondedAt: 1,
           version: 1,
           isCurrent: 1,
           createdAt: 1,

@@ -27,3 +27,6 @@ export const reviewSchema = z.object({
   workAgain: z.string(),
   finalSentence: z.string().max(500).default(""),
 });
+export const adminResponseSchema = z.object({
+  adminResponse: z.string().trim().max(5000),
+});
