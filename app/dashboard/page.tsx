@@ -134,14 +134,14 @@ export default async function DashboardPage() {
               ["Timeline", "/dashboard/timeline"],
               ["Export", "/dashboard/export"],
             ].map(([item, href]) => (
-              <a
+              <Link
                 className="block border-b hairline py-4 text-xl transition-colors hover:text-[var(--accent)]"
-                href={href}
                 key={item}
+                href={href}
               >
                 {item}
                 <span className="float-right text-[var(--accent)]">↗</span>
-              </a>
+              </Link>
             ))}
           </div>
           <div className="border-l hairline pl-10">

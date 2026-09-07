@@ -11,46 +11,64 @@ export async function POST(request: Request) {
       { error: "Reviewer access required." },
       { status: 401 },
     );
+  let input: ReturnType<typeof reviewSchema.parse>;
   try {
-    const input = reviewSchema.parse(await request.json());
-    const db = await getDb();
-    const reviewerId = new ObjectId(session.sub);
-    const current = await db
-      .collection("reviews")
-      .findOne({ reviewerId, isCurrent: true });
-    const version = (current?.version ?? 0) + 1;
-    const client = db.client;
-    const transaction = client.startSession();
-    try {
-      await transaction.withTransaction(async () => {
-        if (current)
-          await db
-            .collection("reviews")
-            .updateOne(
-              { _id: current._id },
-              { $set: { isCurrent: false } },
-              { session: transaction },
-            );
-        await db.collection("reviews").insertOne(
-          {
-            ...input,
-            reviewerId,
-            version,
-            isCurrent: true,
-            createdAt: new Date(),
-          },
-          { session: transaction },
-        );
-      });
-    } finally {
-      await transaction.endSession();
-    }
-    return NextResponse.json({ version }, { status: 201 });
+    input = reviewSchema.parse(await request.json());
   } catch {
     return NextResponse.json(
       { error: "Review data was incomplete or invalid." },
       { status: 400 },
     );
+  }
+
+  const db = await getDb();
+  const reviewerId = new ObjectId(session.sub);
+  const transaction = db.client.startSession();
+  let version = 1;
+  try {
+    await transaction.withTransaction(async () => {
+      const current = await db
+        .collection("reviews")
+        .findOne({ reviewerId, isCurrent: true }, { session: transaction });
+      version = (current?.version ?? 0) + 1;
+      if (current)
+        await db
+          .collection("reviews")
+          .updateOne(
+            { _id: current._id },
+            { $set: { isCurrent: false } },
+            { session: transaction },
+          );
+      await db.collection("reviews").insertOne(
+        {
+          ...input,
+          reviewerId,
+          version,
+          isCurrent: true,
+          createdAt: new Date(),
+        },
+        { session: transaction },
+      );
+    });
+    return NextResponse.json({ version }, { status: 201 });
+  } catch (error) {
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      error.code === 11000
+    )
+      return NextResponse.json(
+        { error: "Your review changed at the same time. Please try again." },
+        { status: 409 },
+      );
+    console.error("Review transaction failed", error);
+    return NextResponse.json(
+      { error: "The review could not be saved right now." },
+      { status: 500 },
+    );
+  } finally {
+    await transaction.endSession();
   }
 }
 
