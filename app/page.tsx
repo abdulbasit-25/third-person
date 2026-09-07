@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 
 const notes: Array<[string, string]> = [
   ["01", "How do people experience you when you walk into a room?"],
@@ -10,27 +12,7 @@ const notes: Array<[string, string]> = [
 export default function Home() {
   return (
     <main className="mirror-grid min-h-screen overflow-hidden">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between border-b hairline px-6 py-5 md:px-10">
-        <span className="eyebrow">Mirror / private perception archive</span>
-        <div className="flex items-center gap-6 text-[11px] uppercase tracking-[.14em]">
-          <Link
-            className="hidden transition-colors hover:text-[var(--accent)] md:block"
-            href="/login"
-          >
-            Reviewer login
-          </Link>
-          <Link
-            className="group inline-flex items-center gap-1.5 border border-[var(--ink)] px-4 py-2 transition-colors hover:bg-[var(--ink)] hover:text-[var(--paper)]"
-            href="/register"
-          >
-            Share a thought
-            <ArrowUpRight
-              className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              strokeWidth={1.75}
-            />
-          </Link>
-        </div>
-      </nav>
+      <Header />
       <section className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 pb-24 pt-20 md:grid-cols-[1.2fr_.8fr] md:px-10 md:pb-32 md:pt-28">
         <div className="fade-up">
           <p className="eyebrow mb-8">ABDUL BASIT — BSAI&apos;24, SZABIST</p>
@@ -88,10 +70,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <footer className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-8 text-[10px] uppercase tracking-[.15em] text-[var(--muted)] md:flex-row md:items-center md:justify-between md:px-10">
-        <span>ABDUL BASIT — BSAI&apos;24, SZABIST</span>
-        <span>Private by design / © {new Date().getFullYear()}</span>
-      </footer>
+      <Footer />
     </main>
   );
 }
