@@ -75,11 +75,9 @@ export function Footer({ variant = "public-home" }: FooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Visit ARCHER portfolio"
-                  className="group/link relative mt-0.5 inline-block text-lg font-semibold tracking-[0.28em] text-[var(--ink)] underline-offset-4 transition-all duration-300 ease-out hover:translate-x-1 hover:tracking-[0.34em] hover:text-[var(--accent)] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]"
+                  className="action-link group/link relative mt-0.5 inline-block text-lg font-semibold tracking-[0.28em] text-[var(--ink)] underline-offset-4 transition-all duration-300 ease-out hover:translate-x-1 hover:tracking-[0.34em] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]"
                 >
                   ARCHER
-                  {/* Hover underline - keyed to the link's own hover via group/link */}
-                  <span className="absolute -bottom-1 left-0 h-px w-0 bg-[var(--accent)] transition-all duration-300 ease-out group-hover/link:w-full" />
                 </Link>
               </div>
             </div>
