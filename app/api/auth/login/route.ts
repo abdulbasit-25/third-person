@@ -1,9 +1,19 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
 import { sessionCookie, signSession, verifyPassword } from "@/lib/auth";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { loginSchema } from "@/lib/schemas";
 
 export async function POST(request: Request) {
+  const limit = checkRateLimit(request, "reviewer-login");
+  if (!limit.allowed)
+    return NextResponse.json(
+      { error: "Too many login attempts. Please try again later." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(limit.retryAfter) },
+      },
+    );
   try {
     const input = loginSchema.parse(await request.json());
     const user = await (await getDb())
