@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-const notes = [
+const notes: Array<[string, string]> = [
   ["01", "How do people experience you when you walk into a room?"],
   ["02", "What stays true when nobody is keeping score?"],
   ["03", "A small archive of the things worth carrying forward."],
@@ -59,14 +59,17 @@ export default function Home() {
           </div>
         </div>
         <div className="relative flex min-h-[390px] items-end border-l hairline pl-8 md:mt-20 md:min-h-[470px]">
-          <div className="absolute right-0 top-0 font-serif text-[6rem] leading-none text-[var(--accent-soft)] opacity-70 md:text-[9rem]">
+          <div
+            aria-hidden="true"
+            className="absolute right-0 top-0 font-serif text-[6rem] leading-none text-[var(--accent-soft)] opacity-70 md:text-[9rem]"
+          >
             &ldquo;
           </div>
           <div className="relative max-w-sm pb-2">
             <p className="eyebrow mb-6">The premise</p>
-            <p className="display text-4xl leading-[1.02] md:text-5xl">
+            <blockquote className="display m-0 text-4xl leading-[1.02] md:text-5xl">
               You are not the most reliable narrator of your own life.
-            </p>
+            </blockquote>
             <div className="mt-12 h-px w-16 bg-[var(--accent)]" />
             <p className="mt-5 text-[11px] leading-relaxed text-[var(--muted)]">
               One considered review is more useful than a hundred polite
@@ -87,7 +90,7 @@ export default function Home() {
       </section>
       <footer className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-8 text-[10px] uppercase tracking-[.15em] text-[var(--muted)] md:flex-row md:items-center md:justify-between md:px-10">
         <span>ABDUL BASIT — BSAI&apos;24, SZABIST</span>
-        <span>Private by design / © 2026</span>
+        <span>Private by design / © {new Date().getFullYear()}</span>
       </footer>
     </main>
   );

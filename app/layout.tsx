@@ -1,9 +1,29 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Mirror / Abdul Basit",
   description: "A private perception archive.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+  openGraph: {
+    title: "Mirror / Abdul Basit",
+    description: "A private perception archive.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Mirror / Abdul Basit",
+    description: "A private perception archive.",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#f3efe7",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
