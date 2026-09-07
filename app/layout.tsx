@@ -4,6 +4,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Mirror / Abdul Basit",
   description: "A private perception archive.",
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: "/favicon.svg",
+  },
   robots: {
     index: false,
     follow: false,
