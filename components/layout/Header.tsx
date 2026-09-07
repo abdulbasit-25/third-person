@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, LogOut } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
 
 /* ------------------------------------------------------------------ */
@@ -108,32 +108,10 @@ function BackLink({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-3 ${focusRing}`}
+      className={`action-link inline-flex flex-col gap-0.5 ${focusRing}`}
     >
-      <span
-        className={`relative flex h-9 w-9 items-center justify-center overflow-hidden border border-[var(--line-strong)] bg-[var(--paper)] text-[var(--ink-soft)] ${transition} group-hover:-translate-x-0.5 group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[var(--paper)] group-hover:shadow-[0_6px_18px_rgba(180,93,60,0.16)]`}
-      >
-        {/* Hover fill */}
-        <span className="absolute inset-0 origin-left scale-x-0 bg-[var(--accent)] transition-transform duration-300 ease-out group-hover:scale-x-100" />
-
-        <ArrowLeft
-          aria-hidden="true"
-          className="relative z-10 h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-1"
-          strokeWidth={1.6}
-        />
-      </span>
-
-      <span className="flex flex-col">
-        <span
-          className={`${micro} text-[var(--muted)] transition-colors duration-300 group-hover:text-[var(--ink-soft)]`}
-        >
-          Return to
-        </span>
-
-        <span className="mt-0.5 text-xs font-medium text-[var(--ink)] transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]">
-          {label}
-        </span>
-      </span>
+      <span className={`${micro} text-[var(--muted)]`}>Return to</span>
+      <span className="text-xs font-medium text-[var(--ink)]">{label}</span>
     </Link>
   );
 }
@@ -148,23 +126,15 @@ function PublicNavigation() {
       {/* Login */}
       <Link
         href="/login"
-        className={`group hidden items-center gap-2 px-3 py-3 ${micro} text-[var(--ink-soft)] ${transition} hover:text-[var(--accent)] sm:inline-flex ${focusRing}`}
+        className={`action-link hidden items-center gap-2 px-3 py-3 ${micro} sm:inline-flex ${focusRing}`}
       >
-        <span className="relative">
-          Reviewer login
-          <span
-            aria-hidden="true"
-            className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-[var(--accent)] transition-transform duration-300 group-hover:scale-x-100"
-          />
-        </span>
-
-        <span className="h-1.5 w-1.5 rotate-45 border border-[var(--accent)] transition-all duration-300 group-hover:rotate-[135deg] group-hover:bg-[var(--accent)]" />
+        Reviewer login
       </Link>
 
       {/* Main CTA */}
       <Link
         href="/register"
-        className={`group relative inline-flex min-h-[44px] items-center gap-3 overflow-hidden border border-[var(--accent)] bg-[var(--accent)] px-5 py-3 ${micro} text-[var(--paper)] shadow-[0_6px_20px_rgba(180,93,60,0.18)] ${transition} hover:-translate-y-1 hover:border-[var(--accent-hover)] hover:bg-[var(--accent-hover)] hover:shadow-[0_14px_34px_rgba(180,93,60,0.28)] ${focusRing}`}
+        className={`action-button action-button--accent group relative inline-flex min-h-[44px] items-center gap-3 overflow-hidden px-5 py-3 ${micro} shadow-[0_6px_20px_rgba(180,93,60,0.18)] ${focusRing}`}
       >
         {/* Animated background sweep */}
         <span
@@ -205,17 +175,9 @@ function SignOutButton() {
   return (
     <Link
       href="/api/auth/logout"
-      className={`group inline-flex min-h-[40px] items-center gap-2 border border-[var(--line-strong)] bg-[var(--paper)] px-3.5 py-2.5 ${micro} text-[var(--ink-soft)] ${transition} hover:-translate-y-0.5 hover:border-[var(--accent)] hover:bg-[var(--accent-soft)]/30 hover:text-[var(--ink)] hover:shadow-[0_6px_18px_rgba(180,93,60,0.10)] ${focusRing}`}
+      className={`action-link inline-flex min-h-[40px] items-center ${micro} ${focusRing}`}
     >
-      <span className="transition-transform duration-300 group-hover:-translate-x-0.5">
-        Sign out
-      </span>
-
-      <LogOut
-        aria-hidden="true"
-        className="h-3.5 w-3.5 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[var(--accent)]"
-        strokeWidth={1.6}
-      />
+      Sign out
     </Link>
   );
 }
