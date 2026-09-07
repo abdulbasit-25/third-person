@@ -146,7 +146,7 @@ export function Footer({ variant = "public-home" }: FooterProps) {
           </span>
 
           <span className="cursor-default transition-all duration-300 hover:-translate-x-1 hover:text-[var(--ink-soft)]">
-            Built for the web
+            Built for Clouser
           </span>
         </div>
       </div>

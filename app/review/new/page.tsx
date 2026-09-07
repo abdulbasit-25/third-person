@@ -17,9 +17,12 @@ const steps = [
   "The instinct",
 ];
 
-// Editorial/print-style toggle: a real bordered box (fits the ruled-grid
-// background), with a solid ink fill on selection so the state reads at a
-// glance rather than relying on a color shift alone.
+// Stamped-badge toggle. Uses INLINE styles on purpose: inline `style` wins
+// over any class-based CSS regardless of specificity, so this will render
+// correctly even if something elsewhere in the stylesheet (a button reset,
+// a conflicting utility, a CSS-variable format mismatch) was cancelling the
+// class-based border/background before. Literal colors, not var(--x)/NN,
+// so there's nothing left that can silently fail.
 function ChoiceButton({
   active,
   onClick,
@@ -34,26 +37,63 @@ function ChoiceButton({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={[
-        "flex items-center gap-2 border px-4 py-2.5 text-xs uppercase tracking-[.1em] transition-all duration-150",
-        active
-          ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]"
-          : "border-[var(--ink)]/25 bg-[var(--paper)] text-[var(--ink)]/70 hover:border-[var(--ink)]/60 hover:text-[var(--ink)]",
-      ].join(" ")}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "8px",
+        padding: "10px 16px",
+        fontSize: "11px",
+        letterSpacing: "0.08em",
+        textTransform: "uppercase",
+        fontFamily: "inherit",
+        borderRadius: "3px",
+        border: active ? "1.5px solid #b5541c" : "1.5px solid #cdc4b2",
+        backgroundColor: active ? "#c1611f" : "#f6f1e7",
+        color: active ? "#fff8ef" : "#6b6252",
+        boxShadow: active ? "0 2px 6px rgba(180,84,28,0.35)" : "none",
+        cursor: "pointer",
+        transition: "all 150ms ease",
+      }}
+      onMouseEnter={(e) => {
+        if (!active) {
+          e.currentTarget.style.borderColor = "#3a352b";
+          e.currentTarget.style.color = "#3a352b";
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!active) {
+          e.currentTarget.style.borderColor = "#cdc4b2";
+          e.currentTarget.style.color = "#6b6252";
+        }
+      }}
     >
-      {/* radio-style indicator: outlined circle, dot fills on selection */}
       <span
-        className={[
-          "flex h-3 w-3 shrink-0 items-center justify-center rounded-full border transition-colors",
-          active ? "border-[var(--paper)]" : "border-[var(--ink)]/35",
-        ].join(" ")}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "14px",
+          height: "14px",
+          borderRadius: "2px",
+          border: active ? "1.5px solid #fff8ef" : "1.5px solid #b3a894",
+          backgroundColor: active ? "#fff8ef" : "transparent",
+          flexShrink: 0,
+        }}
       >
-        <span
-          className={[
-            "h-1.5 w-1.5 rounded-full transition-transform",
-            active ? "scale-100 bg-[var(--paper)]" : "scale-0 bg-transparent",
-          ].join(" ")}
-        />
+        {active && (
+          <svg
+            width="9"
+            height="9"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#c1611f"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        )}
       </span>
       {children}
     </button>
