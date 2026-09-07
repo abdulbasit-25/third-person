@@ -156,7 +156,7 @@ export default async function DashboardPage() {
           <nav className="border-t hairline">
             {NAV_ITEMS.map(([item, href]) => (
               <Link
-                className="group flex items-center justify-between border-b hairline py-5 text-xl transition-colors hover:text-[var(--accent)]"
+                className="action-link group flex items-center justify-between border-b hairline py-5 text-xl"
                 key={item}
                 href={href}
               >
