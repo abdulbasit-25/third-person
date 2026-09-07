@@ -123,7 +123,7 @@ export default function NewReviewPage() {
           </Link>
         </div>
       </header>
-      <div className="mx-auto max-w-3xl py-20">
+      <div className="mx-auto max-w-3xl pb-32 pt-20">
         <p className="eyebrow mb-6">
           {step === 1
             ? "The context"
