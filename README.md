@@ -63,6 +63,53 @@ The application is a single deployable Next.js project. Pages and API route
 handlers live together under `app/`; there is no separate frontend or backend
 service.
 
+## Theme and Design
+
+Mirror uses a quiet editorial theme designed to make personal writing feel
+considered rather than transactional. The interface is light, tactile, and
+slightly archival: paper surfaces, thin rules, serif display typography, and
+monospace metadata create the feeling of a carefully kept notebook.
+
+### Visual language
+
+- **Theme:** light paper-and-ink editorial archive.
+- **Display type:** Georgia/Times-style serif for large headings and reflective
+  review text.
+- **Interface type:** Courier-style monospace for labels, navigation, metadata,
+  and compact controls.
+- **Structure:** generous whitespace, thin dividers, editorial grids, and
+  restrained motion.
+- **Tone:** private, precise, warm, and reflective instead of corporate or
+  dashboard-heavy.
+
+### Color palette
+
+| Token            | Value     | Role                                                  |
+| ---------------- | --------- | ----------------------------------------------------- |
+| `--ink`          | `#182329` | Primary text and dark action surfaces                 |
+| `--ink-soft`     | `#3a4650` | Secondary text and softened dark controls             |
+| `--paper`        | `#f3efe7` | Main page background and light surfaces               |
+| `--paper-deep`   | `#e7e0d4` | Footer, panels, and deeper paper surfaces             |
+| `--muted`        | `#69736f` | Supporting text and metadata                          |
+| `--accent`       | `#b45d3c` | Burnt-clay accent, links, highlights, and focus rings |
+| `--accent-hover` | `#9c4c2f` | Darker accent hover state                             |
+| `--accent-soft`  | `#e1b29d` | Soft accent surfaces and secondary highlights         |
+
+The review choice controls use a separate stamped-badge palette so they are
+visually distinct from navigation and action controls. Idle choices use cream
+(`#f6f1e7`), warm gray borders (`#cdc4b2`), and muted brown-gray text
+(`#6b6252`). Selected choices use burnt orange (`#c1611f`) with a darker
+orange border (`#b5541c`) and off-white text (`#fff8ef`).
+
+Navigation and action buttons use the ink or accent colors with lift, shadow,
+underline, and focus-ring interactions. They do not use the choice controls'
+square indicators, so users can distinguish "choose an option" from "go or
+submit" at a glance.
+
+The design tokens live in `app/globals.css`. Shared interaction components and
+layout patterns live in `components/`, including the choice-button treatment
+in `components/ui/ChoiceButton.tsx`.
+
 ## Requirements
 
 - Node.js 20 or newer.
