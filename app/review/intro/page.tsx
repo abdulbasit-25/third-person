@@ -7,28 +7,24 @@ import { Header } from "@/components/layout/Header";
 export default async function ReviewIntroPage() {
   const session = await getSession();
   const review = session
-    ? await (await getDb())
-        .collection("reviews")
-        .findOne(
-          { reviewerId: new ObjectId(session.sub), isCurrent: true },
-          {
-            projection: {
-              adminResponse: 1,
-              finalRating: 1,
-              updatedAt: 1,
-              createdAt: 1,
-            },
+    ? await (await getDb()).collection("reviews").findOne(
+        { reviewerId: new ObjectId(session.sub), isCurrent: true },
+        {
+          projection: {
+            adminResponse: 1,
+            finalRating: 1,
+            updatedAt: 1,
+            createdAt: 1,
           },
-        )
+        },
+      )
     : null;
 
   return (
     <main className="mirror-grid min-h-screen px-6 py-8 md:px-10">
       <Header
         variant="reviewer-root"
-        rightContent={
-          <span className="eyebrow">01 / 06</span>
-        }
+        rightContent={<span className="eyebrow">01 / 06</span>}
       />
       <div className="mx-auto max-w-4xl py-28">
         <p className="eyebrow mb-8 text-[var(--accent)]">Before we begin</p>
