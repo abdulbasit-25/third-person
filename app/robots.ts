@@ -16,7 +16,7 @@ export default function robots(): MetadataRoute.Robots {
     },
     sitemap: new URL(
       "/sitemap.xml",
-      process.env.NEXT_PUBLIC_SITE_URL || "https://archiveme.vercel.app",
+      process.env.SITE_URL || "https://archiveme.vercel.app",
     ).toString(),
   };
 }
