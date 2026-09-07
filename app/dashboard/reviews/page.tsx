@@ -8,7 +8,6 @@ export default async function ReviewsPage() {
   )
     .collection("reviews")
     .aggregate([
-      { $match: { isCurrent: true } },
       {
         $lookup: {
           from: "user",
@@ -21,16 +20,19 @@ export default async function ReviewsPage() {
       {
         $project: {
           _id: 1,
+          reviewerId: 1,
           finalRating: 1,
           finalSentence: 1,
           answers: 1,
           traits: 1,
           adminResponse: 1,
+          version: 1,
+          isCurrent: 1,
           createdAt: 1,
           reviewer: { displayName: 1, status: 1 },
         },
       },
-      { $sort: { createdAt: -1 } },
+      { $sort: { reviewerId: 1, version: -1 } },
     ])
     .toArray();
 
@@ -61,12 +63,24 @@ export default async function ReviewsPage() {
               <article className="py-10" key={review._id.toString()}>
                 <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
                   <div>
-                    <p className="display text-3xl">
+                    <Link
+                      href={`/dashboard/people/${review.reviewerId.toString()}`}
+                      className="display text-3xl transition-colors hover:text-[var(--accent)]"
+                    >
                       {review.reviewer?.displayName || "Anonymous reviewer"}
-                    </p>
-                    <p className="eyebrow mt-2">
-                      {review.reviewer?.status || "Reviewer"}
-                    </p>
+                    </Link>
+                    <div className="mt-3 flex flex-wrap items-center gap-3">
+                      <p className="eyebrow">
+                        {review.reviewer?.status || "Reviewer"}
+                      </p>
+                      <span
+                        className={`eyebrow border px-2 py-1 ${review.isCurrent ? "border-[var(--accent)] text-[var(--accent)]" : "hairline text-[var(--muted)]"}`}
+                      >
+                        {review.isCurrent
+                          ? "Latest version"
+                          : `Version ${review.version}`}
+                      </span>
+                    </div>
                   </div>
                   <div className="text-left md:text-right">
                     <p className="eyebrow">Overall feeling</p>
@@ -83,8 +97,14 @@ export default async function ReviewsPage() {
                     .filter(([, value]) => value)
                     .map(([key, value]) => (
                       <div key={key}>
-                        <p className="eyebrow mb-2">
-                          {key.replace(/([A-Z])/g, " $1")}
+                        <p className="font-bold text-xs uppercase tracking-[.14em] text-[var(--accent)]">
+                          {key === "firstImpression"
+                            ? "First Impression"
+                            : key === "proudMoment"
+                              ? "Proud Moment"
+                              : key === "honestAdvice"
+                                ? "Honest Advice"
+                                : key.replace(/([A-Z])/g, " $1")}
                         </p>
                         <p className="max-w-3xl whitespace-pre-wrap break-words font-serif text-lg leading-relaxed text-[var(--muted)]">
                           {String(value)}
@@ -97,10 +117,17 @@ export default async function ReviewsPage() {
                     {review.traits.join(" / ")}
                   </p>
                 ) : null}
-                <ReviewResponseForm
-                  reviewId={review._id.toString()}
-                  initialResponse={review.adminResponse}
-                />
+                {review.isCurrent ? (
+                  <ReviewResponseForm
+                    reviewId={review._id.toString()}
+                    initialResponse={review.adminResponse}
+                  />
+                ) : (
+                  <p className="mt-6 border-t hairline pt-5 text-xs text-[var(--muted)]">
+                    Archived version. Responses can only be written to the
+                    latest review.
+                  </p>
+                )}
               </article>
             ))
           ) : (

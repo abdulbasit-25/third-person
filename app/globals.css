@@ -40,8 +40,15 @@ a {
 }
 .display {
   font-family: var(--serif);
-  font-weight: 400;
-  letter-spacing: -0.035em;
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+h1.display,
+h2.display,
+h3.display {
+  text-shadow: 0 0 0.01px currentColor;
 }
 .eyebrow {
   color: var(--muted);

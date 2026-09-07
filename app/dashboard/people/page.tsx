@@ -39,7 +39,12 @@ export default async function PeoplePage() {
                 key={person._id.toString()}
               >
                 <div>
-                  <h2 className="display text-3xl">{person.displayName}</h2>
+                  <Link
+                    href={`/dashboard/people/${person._id.toString()}`}
+                    className="display text-3xl transition-colors hover:text-[var(--accent)]"
+                  >
+                    {person.displayName}
+                  </Link>
                   <p className="eyebrow mt-2">{person.username}</p>
                 </div>
                 <div className="text-left md:text-right">
