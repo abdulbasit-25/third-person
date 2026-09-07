@@ -85,7 +85,7 @@ export function ReviewerHistory({
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between gap-4 py-7 text-left"
+        className="icon-action flex w-full items-center justify-between gap-4 py-7 text-left"
       >
         <div>
           <p className="display text-2xl sm:text-3xl">{reviewerName}</p>
