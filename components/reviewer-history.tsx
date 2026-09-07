@@ -108,12 +108,9 @@ export function ReviewerHistory({
             {latest.isCurrent ? (
               <ReviewResponseForm
                 reviewId={latest.id}
-             {latest.isCurrent ? (
-  <ReviewResponseForm
-    reviewId={latest.id}
-    initialResponse={latest.adminResponse ?? undefined}
-  />
-) : null}
+                initialResponse={latest.adminResponse ?? undefined}
+              />
+            ) : null}
           </div>
 
           {/* Earlier versions */}
