@@ -297,6 +297,40 @@ video {
   padding: 14px 28px;
 }
 
+.footer-tooltip {
+  z-index: 10;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 0 8px 18px rgba(24, 35, 41, 0.2);
+  letter-spacing: 0.14em;
+  transform: translate(-50%, 4px);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.footer-tooltip::before {
+  position: absolute;
+  right: 50%;
+  bottom: -4px;
+  width: 7px;
+  height: 7px;
+  border-right: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--ink);
+  content: "";
+  transform: translateX(50%) rotate(45deg);
+}
+
+.group\/contact:hover .footer-tooltip,
+.group\/contact:focus-visible .footer-tooltip,
+.group\/link:hover .footer-tooltip,
+.group\/link:focus-visible .footer-tooltip {
+  transform: translate(-50%, 0);
+}
+
 .fade-up {
   animation: fade-up 0.65s var(--ease) both;
 }

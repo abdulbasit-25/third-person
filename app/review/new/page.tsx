@@ -207,7 +207,11 @@ export default function NewReviewPage() {
             className="review-nav-action action-button action-button--accent mt-10 inline-flex items-center justify-center gap-3 text-[11px] uppercase tracking-[.14em]"
           >
             Return to your space
-            <ArrowUpRight aria-hidden="true" className="h-4 w-4" strokeWidth={1.6} />
+            <ArrowUpRight
+              aria-hidden="true"
+              className="h-4 w-4"
+              strokeWidth={1.6}
+            />
           </Link>
         </div>
       </main>

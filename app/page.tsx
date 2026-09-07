@@ -17,8 +17,8 @@ export default function Home() {
         <div className="fade-up">
           <p className="eyebrow mb-8">ABDUL BASIT — BSAI&apos;24, SZABIST</p>
           <h1 className="display max-w-4xl text-[clamp(4.5rem,12vw,10.5rem)] leading-[.82]">
-            A mirror,
-            <br />
+            mirror,
+            {/* <br /> */}
             held open.
           </h1>
           <p className="mt-12 max-w-md font-serif text-xl leading-relaxed text-[var(--muted)]">
