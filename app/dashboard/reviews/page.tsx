@@ -78,12 +78,20 @@ export default async function ReviewsPage() {
                 <p className="mt-8 max-w-3xl font-serif text-2xl leading-relaxed">
                   {review.finalSentence || "No final sentence was added."}
                 </p>
-                {review.answers?.proudMoment && (
-                  <p className="mt-5 max-w-2xl text-sm leading-relaxed text-[var(--muted)]">
-                    <span className="eyebrow mr-3">A moment</span>
-                    {review.answers.proudMoment}
-                  </p>
-                )}
+                <div className="mt-8 grid gap-5 border-y hairline py-6">
+                  {Object.entries(review.answers || {})
+                    .filter(([, value]) => value)
+                    .map(([key, value]) => (
+                      <div key={key}>
+                        <p className="eyebrow mb-2">
+                          {key.replace(/([A-Z])/g, " $1")}
+                        </p>
+                        <p className="max-w-3xl whitespace-pre-wrap break-words font-serif text-lg leading-relaxed text-[var(--muted)]">
+                          {String(value)}
+                        </p>
+                      </div>
+                    ))}
+                </div>
                 {review.traits?.length ? (
                   <p className="mt-5 text-xs uppercase tracking-[.12em] text-[var(--accent)]">
                     {review.traits.join(" / ")}

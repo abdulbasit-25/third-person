@@ -2,10 +2,15 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ratingCategories, traits } from "@/lib/constants";
+
+const wordCount = (value: string) =>
+  value.trim().split(/\s+/).filter(Boolean).length;
+
 export default function NewReviewPage() {
   const [step, setStep] = useState(1);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const [relationship, setRelationship] = useState<string[]>([]);
   const [selectedTraits, setSelectedTraits] = useState<string[]>([]);
   const [knownDuration, setKnownDuration] = useState("a few months");
@@ -62,6 +67,12 @@ export default function NewReviewPage() {
       </main>
     );
   async function submit() {
+    if (finalSentence.trim().length < 10) {
+      setError("Add a final sentence of at least 10 characters.");
+      return;
+    }
+    setSubmitting(true);
+    setError("");
     const payload = {
       relationship,
       knownDuration,
@@ -85,7 +96,17 @@ export default function NewReviewPage() {
       else setError("Your review could not be saved. Please try again.");
     } catch {
       setError("The server could not be reached. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
+  }
+  function nextStep() {
+    if (step === 1 && relationship.length === 0) {
+      setError("Choose at least one relationship before continuing.");
+      return;
+    }
+    setError("");
+    setStep(step + 1);
   }
   return (
     <main className="mirror-grid min-h-screen px-6 py-8 md:px-10">
@@ -249,16 +270,32 @@ export default function NewReviewPage() {
               What is something he did, said, or made that stayed with you?
             </p>
             <textarea
+              value={answers.firstImpression || ""}
+              onChange={(event) =>
+                setAnswers({ ...answers, firstImpression: event.target.value })
+              }
+              maxLength={4000}
+              className="mt-10 min-h-36 w-full resize-y border hairline bg-transparent p-4 font-serif text-xl outline-none focus:border-[var(--accent)]"
+              placeholder="What did you notice first?"
+            />
+            <p className="mt-2 text-right text-[10px] text-[var(--muted)]">
+              {wordCount(answers.firstImpression || "")} words /{" "}
+              {(answers.firstImpression || "").length} characters (maximum 500
+              words / 4000 characters)
+            </p>
+            <textarea
               value={answers.proudMoment || ""}
               onChange={(event) =>
                 setAnswers({ ...answers, proudMoment: event.target.value })
               }
-              maxLength={1200}
+              maxLength={4000}
               className="mt-10 min-h-48 w-full resize-none border hairline bg-transparent p-4 font-serif text-2xl outline-none focus:border-[var(--accent)]"
               placeholder="A moment worth remembering..."
             />
             <p className="mt-2 text-right text-[10px] text-[var(--muted)]">
-              {(answers.proudMoment || "").length} / 1200
+              {wordCount(answers.proudMoment || "")} words /{" "}
+              {(answers.proudMoment || "").length} characters (maximum 500 words
+              / 4000 characters)
             </p>
           </>
         )}
@@ -300,10 +337,15 @@ export default function NewReviewPage() {
                   onChange={(event) =>
                     setAnswers({ ...answers, honestAdvice: event.target.value })
                   }
-                  maxLength={1200}
+                  maxLength={4000}
                   className="min-h-36 w-full resize-none border hairline bg-transparent p-4 font-serif text-xl outline-none focus:border-[var(--accent)]"
                   placeholder="The thing I hope you remember..."
                 />
+                <p className="mt-2 text-right text-[10px] text-[var(--muted)]">
+                  {wordCount(answers.honestAdvice || "")} words /{" "}
+                  {(answers.honestAdvice || "").length} characters (maximum 500
+                  words / 4000 characters)
+                </p>
               </label>
             </div>
           </>
@@ -334,10 +376,15 @@ export default function NewReviewPage() {
               <textarea
                 value={finalSentence}
                 onChange={(event) => setFinalSentence(event.target.value)}
-                maxLength={500}
+                maxLength={1000}
                 className="mt-3 min-h-32 w-full resize-none border hairline bg-transparent p-4 font-serif text-2xl outline-none focus:border-[var(--accent)]"
                 placeholder="Basit is the kind of person who..."
               />
+              <p className="mt-2 text-right text-[10px] text-[var(--muted)]">
+                {wordCount(finalSentence)} words / {finalSentence.length}{" "}
+                characters (minimum 10 characters, maximum 120 words / 1000
+                characters)
+              </p>
             </label>
             <label className="mt-10 block">
               <div className="flex justify-between">
@@ -372,17 +419,20 @@ export default function NewReviewPage() {
           </button>
           {step < max ? (
             <button
-              onClick={() => setStep(step + 1)}
+              type="button"
+              onClick={nextStep}
               className="bg-[var(--ink)] px-6 py-3 text-[11px] uppercase tracking-[.14em] text-[var(--paper)]"
             >
               Next ↗
             </button>
           ) : (
             <button
+              type="button"
               onClick={submit}
+              disabled={submitting}
               className="bg-[var(--accent)] px-6 py-3 text-[11px] uppercase tracking-[.14em] text-white"
             >
-              Send it to Basit ↗
+              {submitting ? "Saving..." : "Send it to Basit ↗"}
             </button>
           )}
         </div>

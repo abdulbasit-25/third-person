@@ -34,13 +34,17 @@ Create `.env.local` in the project root:
 ```env
 MONGODB_URI=mongodb://127.0.0.1:27017/mirror
 JWT_SECRET=replace-with-a-random-string-at-least-32-characters-long
-ADMIN_SEED_USERNAME=admin
-ADMIN_SEED_PASSWORD=replace-with-a-password-at-least-8-characters
 ```
 
 `MONGODB_URI` and `JWT_SECRET` are required by the application. The two
-`ADMIN_SEED_*` values are required by `npm run seed` and are used to create or
-update the administrator account.
+`ADMIN_SEED_*` values are required only by `npm run seed`; keep them in the
+current shell or deployment secret manager and do not add them to the checked-
+in environment example.
+
+The review form accepts one or more relationships, ratings from 1 to 10, up to
+12 predefined traits, and written responses up to 500 words / 4,000
+characters. The final sentence must contain 10-120 words and no more than 1,000
+characters. Administrator responses allow up to 600 words / 5,000 characters.
 
 ## Commands
 
