@@ -53,7 +53,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" | "admin" }) {
           required
           name="username"
           className="w-full border-b hairline bg-transparent px-0 py-3 outline-none focus:border-[var(--accent)]"
-          placeholder="your_name"
+          placeholder="your_name or email"
         />
       </label>
       <label className="block">

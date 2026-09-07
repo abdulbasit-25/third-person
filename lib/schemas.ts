@@ -5,7 +5,7 @@ export const registerSchema = z.object({
     .trim()
     .min(3)
     .max(30)
-    .regex(/^[a-zA-Z0-9_]+$/),
+    .regex(/^[a-zA-Z0-9_.@-]+$/),
   displayName: z.string().trim().min(2).max(80),
   password: z.string().min(8).max(100),
   status: z.enum(["student", "teacher"]),

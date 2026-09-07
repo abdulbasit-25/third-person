@@ -27,6 +27,12 @@ export default function LoginPage() {
               Create a reviewer account
             </Link>
           </p>
+          <p className="mt-3 text-center text-xs text-[var(--muted)]">
+            Administrator?{" "}
+            <Link className="text-[var(--accent)]" href="/admin-login">
+              Use administrator sign in
+            </Link>
+          </p>
         </div>
       </div>
     </main>
