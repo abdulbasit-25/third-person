@@ -41,7 +41,7 @@ export default async function ReviewIntroPage() {
         </p>
         <div className="mt-12">
           <Link
-            className="inline-block bg-[var(--accent)] px-7 py-4 text-[11px] uppercase tracking-[.14em] text-white"
+            className="action-button action-button--accent inline-block px-7 py-4 text-[11px] uppercase tracking-[.14em]"
             href="/review/new"
           >
             Start the review ↗
