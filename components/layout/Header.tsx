@@ -173,12 +173,14 @@ function PublicNavigation() {
 
 function SignOutButton() {
   return (
-    <Link
-      href="/api/auth/logout"
-      className={`action-link inline-flex min-h-[40px] items-center ${micro} ${focusRing}`}
-    >
-      Sign out
-    </Link>
+    <form action="/api/auth/logout" method="post">
+      <button
+        type="submit"
+        className={`action-link inline-flex min-h-[40px] items-center ${micro} ${focusRing}`}
+      >
+        Sign out
+      </button>
+    </form>
   );
 }
 
