@@ -123,6 +123,14 @@ function BackLink({ href, label }: { href: string; label: string }) {
 function PublicNavigation() {
   return (
     <nav aria-label="Primary" className="flex items-center gap-2 sm:gap-3">
+      {/* How to Use */}
+      <Link
+        href="/how-to-use"
+        className={`action-link hidden items-center gap-2 px-3 py-3 ${micro} sm:inline-flex ${focusRing}`}
+      >
+        How to use
+      </Link>
+
       {/* Login */}
       <Link
         href="/login"
