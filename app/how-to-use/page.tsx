@@ -96,6 +96,7 @@ const adminSteps = [
     details:
       "Only authorized administrators can view the complete archive and analytics.",
     icon: Shield,
+    color: "bg-[var(--accent-soft)]",
   },
   {
     num: "02",
@@ -104,6 +105,7 @@ const adminSteps = [
     details:
       "The dashboard shows current versions and latest submissions at a glance.",
     icon: BarChart3,
+    color: "bg-[#d4a9a1]",
   },
   {
     num: "03",
@@ -113,6 +115,7 @@ const adminSteps = [
     details:
       "Compare ratings and traits across the archive to spot patterns and insights.",
     icon: MessageSquare,
+    color: "bg-[#c9a896]",
   },
   {
     num: "04",
@@ -121,6 +124,7 @@ const adminSteps = [
       "View the chronological submission history and version evolution.",
     details: "See how feedback and perspectives have changed over time.",
     icon: Clock,
+    color: "bg-[#be9f8d]",
   },
   {
     num: "05",
@@ -130,6 +134,7 @@ const adminSteps = [
     details:
       "Keep conversations thoughtful and personal between you and each reviewer.",
     icon: MessageSquare,
+    color: "bg-[#a88b7b]",
   },
   {
     num: "06",
@@ -138,6 +143,7 @@ const adminSteps = [
     details:
       "Create a permanent, portable record of all perspectives and responses.",
     icon: FileJson,
+    color: "bg-[#94776a]",
   },
 ];
 
