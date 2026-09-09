@@ -1,5 +1,7 @@
+"use client";
+
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import Link from "next/link";
 import { ArrowRight, ArrowUp, Instagram, Mail, Sparkles } from "lucide-react";
 import {
   Tooltip,
@@ -232,7 +234,7 @@ export function SiteFooter() {
               <ul className="space-y-2.5 text-sm">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    <Link to={link.to} className="link-underline w-fit">
+                    <Link href={link.to} className="link-underline w-fit">
                       {link.label}
                     </Link>
                   </li>
