@@ -1,60 +1,62 @@
 "use client";
 
-import { useState } from "react";
+type FooterVariant = "public-home";
 import Link from "next/link";
-import { ArrowRight, ArrowUp, Instagram, Mail, Sparkles } from "lucide-react";
+import { Mail, Phone, Globe } from "lucide-react";
+import type { ReactNode } from "react";
 
-/* ── Newsletter ─────────────────────────────────── */
-function NewsletterForm() {
-  const [email, setEmail] = useState("");
-  const [done, setDone] = useState(false);
+interface FooterProps {
+  variant?: FooterVariant;
+}
 
-  if (done) {
-    return (
-      <p className="text-sm text-muted-foreground">
-        You're on the list —{" "}
-        <span className="text-olive">first word on what's new</span> lands in
-        your inbox.
-      </p>
-    );
-  }
+/* ------------------------------------------------------------------ */
+/* Contact data                                                        */
+/* ------------------------------------------------------------------ */
 
+const CONTACT = {
+  instagramHandle: "__abdul.basitt",
+  email: "abdulbasit.alpha25@gmail.com",
+  phoneDisplay: "0341 5878569",
+  // WhatsApp/tel links need the raw digits, country code, no leading 0.
+  phoneIntl: "923415878569",
+};
+
+/* ------------------------------------------------------------------ */
+/* Brand-mark SVGs (not in lucide-react, so hand-drawn to match stroke  */
+/* weight / sizing of the rest of the icon set)                        */
+/* ------------------------------------------------------------------ */
+
+function InstagramIcon() {
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (email.trim()) setDone(true);
-      }}
-      className="flex items-center gap-3 border-b border-hairline pb-3 transition-colors focus-within:border-olive"
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className="h-4 w-4"
     >
-      <input
-        type="email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="your@email.com"
-        aria-label="Email address"
-        className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/60"
+      <rect
+        x="3"
+        y="3"
+        width="18"
+        height="18"
+        rx="5"
+        stroke="currentColor"
+        strokeWidth="1.6"
       />
-      <button
-        type="submit"
-        className="label-caps group flex shrink-0 items-center gap-1.5 text-olive transition-colors hover:text-foreground"
-      >
-        Subscribe
-        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-      </button>
-    </form>
+      <circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="1.6" />
+      <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" />
+    </svg>
   );
 }
 
-/* ── WhatsApp glyph (not in lucide-react) ───────── */
 function WhatsAppIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      aria-hidden
+      aria-hidden="true"
       className="h-4 w-4"
     >
       <path
@@ -71,259 +73,270 @@ function WhatsAppIcon() {
   );
 }
 
-/* ── Brand-colored contact icon ─────────────────────
-   Zyence's hairline-border treatment, but each icon washes to its own
-   platform's brand color on hover (ARCHER's footer), with a small
-   self-contained tooltip so there's no dependency on shadcn/ui. ── */
-function ContactIcon({
+/* ------------------------------------------------------------------ */
+/* Contact link — bordered icon box matching the footer's arrow-detail  */
+/* treatment, with a tooltip label that rises on hover, and a hover     */
+/* state colored to match that platform's own brand color. Uses inline  */
+/* style handlers (not Tailwind hover: classes) so each icon can carry  */
+/* its own literal brand color reliably, independent of the theme.      */
+/* ------------------------------------------------------------------ */
+
+function ContactLink({
   href,
   label,
   icon,
+  external = true,
   brand,
 }: {
   href: string;
   label: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
+  external?: boolean;
+  /** Solid hex, or a CSS gradient string for multi-color brands (Instagram). */
   brand: string;
 }) {
+  const idleStyle: React.CSSProperties = {
+    borderColor: "var(--line-strong)",
+    background: "var(--paper)",
+    color: "var(--ink-soft)",
+    transform: "translateY(0)",
+    boxShadow: "none",
+  };
+
+  const handleEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.currentTarget.style.borderColor = "transparent";
+    e.currentTarget.style.background = brand;
+    e.currentTarget.style.color = "#ffffff";
+    e.currentTarget.style.transform = "translateY(-4px)";
+    e.currentTarget.style.boxShadow = "0 10px 22px rgba(24,35,41,0.22)";
+  };
+
+  const handleLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    Object.assign(e.currentTarget.style, idleStyle);
+  };
+
   return (
-    <span className="group/tip relative inline-flex">
-      <a
-        href={href}
-        target={href.startsWith("http") ? "_blank" : undefined}
-        rel={href.startsWith("http") ? "noreferrer" : undefined}
-        aria-label={label}
-        title={label}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = brand;
-          e.currentTarget.style.borderColor = "transparent";
-          e.currentTarget.style.color = "#fff";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = "";
-          e.currentTarget.style.borderColor = "";
-          e.currentTarget.style.color = "";
-        }}
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-hairline text-muted-foreground transition-all duration-300 hover:-translate-y-0.5"
-      >
-        {icon}
-      </a>
+    <Link
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      aria-label={label}
+      title={label}
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      style={{
+        ...idleStyle,
+        position: "relative",
+        display: "flex",
+        height: "36px",
+        width: "36px",
+        alignItems: "center",
+        justifyContent: "center",
+        border: "1px solid var(--line-strong)",
+        transition: "all 250ms ease",
+      }}
+      className="group/contact focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]"
+    >
+      {icon}
+
+      {/* Tooltip */}
       <span
-        aria-hidden
-        className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-foreground px-2 py-1 text-[10px] font-medium text-background opacity-0 transition-opacity duration-200 group-hover/tip:opacity-100"
+        aria-hidden="true"
+        className="footer-tooltip pointer-events-none absolute -top-9 left-1/2 whitespace-nowrap px-2 py-1 text-[9px] font-medium uppercase opacity-0"
       >
         {label}
       </span>
-    </span>
+    </Link>
   );
 }
 
-/* ── Data ───────────────────────────────────────── */
-// 3rd Person's own contact points — swap in the real handles/addresses.
-const contacts = [
-  {
-    href: "mailto:hello@3rdperson.com",
-    label: "Email us",
-    icon: <Mail className="h-4 w-4" />,
-    brand: "#EA4335",
-  },
-  {
-    href: "https://instagram.com/3rdperson",
-    label: "Follow us on Instagram",
-    icon: <Instagram className="h-4 w-4" />,
-    brand:
-      "linear-gradient(135deg, #f58529 0%, #dd2a7b 45%, #8134af 70%, #515bd4 100%)",
-  },
-  {
-    href: "https://wa.me/10000000000",
-    label: "Message us on WhatsApp",
-    icon: <WhatsAppIcon />,
-    brand: "#25D366",
-  },
-] as const;
+/* ------------------------------------------------------------------ */
+/* Footer                                                              */
+/* ------------------------------------------------------------------ */
 
-const columns = [
-  {
-    heading: "Platform",
-    links: [
-      { label: "Overview", to: "/" },
-      { label: "Features", to: "/features" },
-      { label: "Pricing", to: "/pricing" },
-      { label: "Changelog", to: "/changelog" },
-    ],
-  },
-  {
-    heading: "Account",
-    links: [
-      { label: "Dashboard", to: "/dashboard" },
-      { label: "Sign in", to: "/login" },
-    ],
-  },
-  {
-    heading: "Company",
-    links: [
-      { label: "About us", to: "/about" },
-      { label: "Contact", to: "/contact" },
-    ],
-  },
-  {
-    heading: "Help",
-    links: [
-      { label: "Privacy Policy", to: "/privacy-policy" },
-      { label: "Terms & Conditions", to: "/terms-conditions" },
-      { label: "Cookie Policy", to: "/cookie-policy" },
-    ],
-  },
-] as const;
+export function Footer({ variant = "public-home" }: FooterProps) {
+  if (variant !== "public-home") {
+    return null;
+  }
 
-// The studio that designed & built the site — from ARCHER's own footer.
-const STUDIO = {
-  name: "ARCHER",
-  portfolio: "https://abdulbasit-archer.vercel.app/",
-  email: "abdulbasit.alpha25@gmail.com",
-  whatsapp: "https://wa.me/923415878569",
-};
-
-export function SiteFooter() {
   return (
-    <footer className="group/footer rule-top relative mt-24 overflow-hidden bg-surface">
-      {/* ── Animated accent line (from ARCHER) ─────── */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-0 top-0 h-px w-24 bg-olive transition-all duration-500 ease-out group-hover/footer:w-56"
-      />
+    <footer className="group relative mt-20 overflow-hidden border-t border-[var(--line)] bg-[var(--paper-deep)]">
+      {/* Animated accent line */}
+      <div className="absolute left-0 top-0 h-px w-32 origin-left bg-gradient-to-r from-[var(--accent)] to-transparent transition-all duration-500 ease-out group-hover:w-72" />
 
-      {/* ── Brand + newsletter ─────────────────── */}
-      <div className="mx-auto grid max-w-[1500px] gap-12 px-5 py-16 md:grid-cols-12 md:px-10 md:py-20">
-        <div className="md:col-span-5">
-          <p className="label-caps mb-5 text-muted-foreground">
-            Est. 2026 — Independent platform
-          </p>
-          <p className="font-display text-5xl leading-none tracking-tight md:text-6xl">
-            3rd Person<span className="text-olive">.</span>
-          </p>
-          <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
-            Built with precision, told from the outside in.
-          </p>
-          <div className="mt-7 flex items-center gap-3">
-            {contacts.map((c) => (
-              <ContactIcon key={c.label} {...c} />
-            ))}
+      <div className="mx-auto w-full max-w-6xl px-6 py-14 sm:px-8 lg:px-10">
+        {/* Main footer */}
+        <div className="flex flex-col gap-12 sm:flex-row sm:items-end sm:justify-between">
+          {/* Brand */}
+          <div>
+            <div className="mb-5 flex items-center gap-3">
+              {/* ARCHER precision mark */}
+              <div className="relative flex h-9 w-9 items-center justify-center">
+                <div className="absolute inset-0 rounded-full bg-[var(--accent)] opacity-0 blur-md transition-all duration-500 group-hover:opacity-20" />
+
+                <svg
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="relative h-9 w-9 transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-rotate-3"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M20 3L34 35L23.5 27L20 37L16.5 27L6 35L20 3Z"
+                    fill="url(#archer-footer)"
+                  />
+
+                  <path
+                    d="M20 5V34"
+                    stroke="var(--paper)"
+                    strokeOpacity="0.45"
+                    strokeWidth="1"
+                  />
+
+                  <defs>
+                    <linearGradient
+                      id="archer-footer"
+                      x1="9"
+                      y1="5"
+                      x2="31"
+                      y2="35"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop offset="0" stopColor="var(--accent-soft)" />
+                      <stop offset="0.5" stopColor="var(--accent)" />
+                      <stop offset="1" stopColor="var(--accent-hover)" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+
+              {/* Divider */}
+              <div className="h-5 w-px bg-[var(--line-strong)] transition-colors duration-300 group-hover:bg-[var(--accent)]" />
+
+              {/* Brand name */}
+              <div>
+                <p className="text-[9px] font-medium uppercase tracking-[0.42em] text-[var(--muted)] transition-all duration-300 hover:tracking-[0.5em] hover:text-[var(--accent)] group-hover:text-[var(--ink-soft)]">
+                  Powered by
+                </p>
+
+                <Link
+                  href="https://abdulbasit-archer.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit ARCHER portfolio"
+                  className="action-link group/link relative mt-0.5 inline-block text-lg font-semibold tracking-[0.28em] text-[var(--ink)] underline-offset-4 transition-all duration-300 ease-out hover:translate-x-1 hover:tracking-[0.34em] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]"
+                >
+                  ARCHER
+                  <span
+                    aria-hidden="true"
+                    className="footer-tooltip pointer-events-none absolute -top-9 left-1/2 whitespace-nowrap px-2 py-1 text-[9px] font-medium uppercase opacity-0"
+                  >
+                    Visit portfolio
+                  </span>
+                </Link>
+              </div>
+            </div>
+
+            <p className="max-w-md text-sm leading-6 text-[var(--ink-soft)] transition-colors duration-300 group-hover:text-[var(--ink)]">
+              Built with precision. Designed with intent.
+            </p>
+
+            {/* Contact row */}
+            <div className="mt-6 flex items-center gap-2.5">
+              <ContactLink
+                href="https://www.instagram.com/__abdul.basitt/"
+                label={`Instagram @${CONTACT.instagramHandle}`}
+                icon={<InstagramIcon />}
+                brand="linear-gradient(135deg, #f58529 0%, #dd2a7b 45%, #8134af 70%, #515bd4 100%)"
+              />
+              <ContactLink
+                href={`https://wa.me/${CONTACT.phoneIntl}`}
+                label="WhatsApp"
+                icon={<WhatsAppIcon />}
+                brand="#25D366"
+              />
+              <ContactLink
+                href={`mailto:${CONTACT.email}`}
+                label={CONTACT.email}
+                icon={<Mail className="h-4 w-4" strokeWidth={1.6} />}
+                external={false}
+                brand="#EA4335"
+              />
+              <ContactLink
+                href={`tel:+${CONTACT.phoneIntl}`}
+                label={CONTACT.phoneDisplay}
+                icon={<Phone className="h-4 w-4" strokeWidth={1.6} />}
+                external={false}
+                brand="#34C759"
+              />
+              <ContactLink
+                href="https://abdulbasit-archer.vercel.app/"
+                label="Portfolio"
+                icon={<Globe className="h-4 w-4" strokeWidth={1.6} />}
+                brand="var(--accent)"
+              />
+            </div>
+          </div>
+
+          {/* Signature */}
+          <div className="sm:text-right">
+            <p className="text-[9px] font-medium uppercase tracking-[0.35em] text-[var(--muted)] transition-all duration-300 group-hover:tracking-[0.4em] group-hover:text-[var(--ink-soft)]">
+              Precision{" "}
+              <span className="text-[var(--accent)] transition-transform duration-300 group-hover:inline-block group-hover:scale-125">
+                •
+              </span>{" "}
+              Intelligence{" "}
+              <span className="text-[var(--accent)] transition-transform duration-300 group-hover:inline-block group-hover:scale-125">
+                •
+              </span>{" "}
+              Design
+            </p>
+
+            <p className="mt-3 text-xs text-[var(--muted)] transition-colors duration-300 hover:text-[var(--accent)] group-hover:text-[var(--ink-soft)]">
+              © {new Date().getFullYear()} ARCHER
+            </p>
           </div>
         </div>
 
-        <div className="md:col-span-6 md:col-start-7 md:self-end">
-          <p className="label-caps mb-4 text-muted-foreground">
-            First word on what we ship
-          </p>
-          <NewsletterForm />
-          <p className="mt-3 text-xs text-muted-foreground">
-            One email per update. No noise, unsubscribe anytime.
-          </p>
-        </div>
-      </div>
+        {/* Bottom architectural divider */}
+        <div className="mt-12 flex items-center gap-4">
+          <div className="h-px flex-1 bg-[var(--line)] transition-colors duration-500 group-hover:bg-[var(--line-strong)]" />
 
-      {/* ── Link columns ───────────────────────── */}
-      <div className="rule-top">
-        <div className="mx-auto grid max-w-[1500px] grid-cols-2 gap-x-6 gap-y-10 px-5 py-12 sm:grid-cols-4 md:px-10">
-          {columns.map((col) => (
-            <nav key={col.heading} aria-label={col.heading}>
-              <p className="label-caps mb-5 text-muted-foreground">
-                {col.heading}
-              </p>
-              <ul className="space-y-2.5 text-sm">
-                {col.links.map((link) => (
-                  <li key={link.label}>
-                    <Link href={link.to} className="link-underline w-fit">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Colophon ───────────────────────────── */}
-      <div className="rule-top">
-        <div className="mx-auto flex max-w-[1500px] flex-wrap items-center justify-center gap-x-2 gap-y-1 px-5 py-5 text-center text-xs text-muted-foreground md:px-10">
-          <Sparkles className="h-3.5 w-3.5 text-olive" aria-hidden />
-          <span>Designed &amp; built by</span>
-          <a
-            href={STUDIO.portfolio}
-            target="_blank"
-            rel="noreferrer"
-            className="link-underline text-foreground"
-          >
-            {STUDIO.name}
-          </a>
-          <span aria-hidden>—</span>
-          <span>available for remote work worldwide</span>
-          <span aria-hidden>·</span>
-          <a href={`mailto:${STUDIO.email}`} className="link-underline">
-            Email
-          </a>
-          <span aria-hidden>·</span>
-          <a
-            href={STUDIO.whatsapp}
-            target="_blank"
-            rel="noreferrer"
-            className="link-underline"
-          >
-            WhatsApp
-          </a>
-        </div>
-      </div>
-
-      {/* ── Giant cropped wordmark ─────────────── */}
-      <div
-        aria-hidden
-        className="pointer-events-none select-none overflow-hidden"
-      >
-        <p className="mx-auto -mb-[0.18em] whitespace-nowrap text-center font-display text-[clamp(3.5rem,13vw,13rem)] leading-[0.8] tracking-tight text-foreground/[0.05]">
-          3rd Person
-        </p>
-      </div>
-
-      {/* ── Arrow-detail divider (from ARCHER) ─── */}
-      <div className="rule-top">
-        <div className="mx-auto flex max-w-[1500px] items-center gap-4 px-5 py-5 md:px-10">
-          <div className="h-px flex-1 bg-hairline" />
-          <div className="flex h-7 w-7 items-center justify-center border border-hairline transition-all duration-300 group-hover/footer:border-olive">
+          {/* Arrow detail */}
+          <div className="group/arrow flex h-7 w-7 cursor-default items-center justify-center border border-[var(--line-strong)] bg-[var(--paper)] transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-110 hover:border-[var(--accent)] hover:bg-[var(--paper-deep)]">
             <svg
               width="12"
               height="12"
               viewBox="0 0 14 14"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              aria-hidden
+              aria-hidden="true"
+              className="transition-transform duration-300 group-hover/arrow:scale-110"
             >
               <path
                 d="M7 1L12 12L8.5 9.5L7 13L5.5 9.5L2 12L7 1Z"
-                className="fill-olive"
+                fill="var(--accent)"
+                className="transition-opacity duration-300 group-hover/arrow:opacity-80"
               />
             </svg>
           </div>
-          <div className="h-px flex-1 bg-hairline" />
-        </div>
-      </div>
 
-      {/* ── Bottom bar ─────────────────────────── */}
-      <div className="rule-top relative bg-surface">
-        <div className="mx-auto flex max-w-[1500px] flex-col gap-3 px-5 py-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between md:px-10">
-          <span>© 2026 3rd Person</span>
-          <span className="flex items-center gap-2">
-            <span className="h-1 w-1 rounded-full bg-olive" aria-hidden />
+          <div className="h-px flex-1 bg-[var(--line)] transition-colors duration-500 group-hover:bg-[var(--line-strong)]" />
+        </div>
+
+        {/* Minimal footer metadata */}
+        <div className="mt-5 flex flex-col gap-2 text-[9px] uppercase tracking-[0.2em] text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
+          <span className="cursor-default transition-all duration-300 hover:translate-x-1 hover:text-[var(--ink-soft)]">
             Independent digital work
           </span>
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="label-caps group flex w-fit items-center gap-1.5 transition-colors hover:text-foreground"
-          >
-            Back to top
-            <ArrowUp className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5" />
-          </button>
+
+          <span className="hidden opacity-40 transition-opacity duration-300 group-hover:opacity-100 sm:block">
+            /
+          </span>
+
+          <span className="cursor-default transition-all duration-300 hover:-translate-x-1 hover:text-[var(--ink-soft)]">
+            Built for Clouser
+          </span>
         </div>
       </div>
     </footer>
