@@ -3,11 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUp, Instagram, Mail, Sparkles } from "lucide-react";
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from "@/components/ui/tooltip";
 
 /* ── Newsletter ─────────────────────────────────── */
 function NewsletterForm() {
@@ -77,8 +72,9 @@ function WhatsAppIcon() {
 }
 
 /* ── Brand-colored contact icon ─────────────────────
-   Zyence's tooltip + hairline-border treatment, but each icon washes
-   to its own platform's brand color on hover (ARCHER's footer). ── */
+   Zyence's hairline-border treatment, but each icon washes to its own
+   platform's brand color on hover (ARCHER's footer), with a small
+   self-contained tooltip so there's no dependency on shadcn/ui. ── */
 function ContactIcon({
   href,
   label,
@@ -91,30 +87,34 @@ function ContactIcon({
   brand: string;
 }) {
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <a
-          href={href}
-          target={href.startsWith("http") ? "_blank" : undefined}
-          rel={href.startsWith("http") ? "noreferrer" : undefined}
-          aria-label={label}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = brand;
-            e.currentTarget.style.borderColor = "transparent";
-            e.currentTarget.style.color = "#fff";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "";
-            e.currentTarget.style.borderColor = "";
-            e.currentTarget.style.color = "";
-          }}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-hairline text-muted-foreground transition-all duration-300 hover:-translate-y-0.5"
-        >
-          {icon}
-        </a>
-      </TooltipTrigger>
-      <TooltipContent>{label}</TooltipContent>
-    </Tooltip>
+    <span className="group/tip relative inline-flex">
+      <a
+        href={href}
+        target={href.startsWith("http") ? "_blank" : undefined}
+        rel={href.startsWith("http") ? "noreferrer" : undefined}
+        aria-label={label}
+        title={label}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = brand;
+          e.currentTarget.style.borderColor = "transparent";
+          e.currentTarget.style.color = "#fff";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = "";
+          e.currentTarget.style.borderColor = "";
+          e.currentTarget.style.color = "";
+        }}
+        className="flex h-9 w-9 items-center justify-center rounded-full border border-hairline text-muted-foreground transition-all duration-300 hover:-translate-y-0.5"
+      >
+        {icon}
+      </a>
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-foreground px-2 py-1 text-[10px] font-medium text-background opacity-0 transition-opacity duration-200 group-hover/tip:opacity-100"
+      >
+        {label}
+      </span>
+    </span>
   );
 }
 
